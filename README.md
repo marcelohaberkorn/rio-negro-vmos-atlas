@@ -2,6 +2,10 @@
 
 
 
+🌐 \*\*\[EXPLORAR EL ATLAS INTERACTIVO DE RÍO NEGRO–VMOS](https://marcelohaberkorn.github.io/rio-negro-vmos-atlas/)\*\*
+
+
+
 \*\*Cartografía digital, análisis territorial y visualización de datos geoespaciales con R\*\*
 
 
@@ -73,6 +77,38 @@ El tablero reúne diez secciones temáticas que incluyen:
 \- Localidades próximas a la traza y conectividad territorial.
 
 \- Síntesis del análisis territorial.
+
+
+
+\## Vista previa del atlas
+
+
+
+A continuación, se presentan tres vistas representativas del atlas interactivo, que ilustran su diseño cartográfico, la integración de información territorial y la aplicación de análisis espacial.
+
+
+
+\### Presentación y localización territorial
+
+
+
+!\[Presentación del atlas de Río Negro y representación bicontinental de Argentina](capturas/presentacion.png)
+
+
+
+\### Ecorregiones, regiones productivas e hidrografía
+
+
+
+!\[Cartografía temática de ecorregiones, regiones productivas, hidrografía y traza VMOS](capturas/ecorregiones.png)
+
+
+
+\### Análisis espacial de gobiernos locales y traza VMOS
+
+
+
+!\[Gobiernos locales de Río Negro intersectados por el oleoducto VMOS](capturas/gobiernos\_locales\_vmos.png)
 
 
 
