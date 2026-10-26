@@ -1,24 +1,24 @@
-\# Atlas cartográfico interactivo de Río Negro y traza VMOS
+# Atlas cartográfico interactivo de Río Negro y traza VMOS
 
 
 
-🌐 \*\*\[EXPLORAR EL ATLAS INTERACTIVO DE RÍO NEGRO–VMOS](https://marcelohaberkorn.github.io/rio-negro-vmos-atlas/)\*\*
+🌐 **[EXPLORAR EL ATLAS INTERACTIVO DE RÍO NEGRO–VMOS](https://marcelohaberkorn.github.io/rio-negro-vmos-atlas/)**
 
 
 
-\*\*Cartografía digital, análisis territorial y visualización de datos geoespaciales con R\*\*
+**Cartografía digital, análisis territorial y visualización de datos geoespaciales con R**
 
 
 
-\*\*Autor:\*\* Marcelo Haberkorn
+**Autor:** Marcelo Haberkorn
 
-\*\*Año:\*\* 2026
+**Año:** 2026
 
-\*\*Tecnologías:\*\* R · R Markdown · flexdashboard · Leaflet · sf · GeoJSON
+**Tecnologías:** R · R Markdown · flexdashboard · Leaflet · sf · GeoJSON
 
 
 
-\## Descripción del proyecto
+## Descripción del proyecto
 
 
 
@@ -34,7 +34,7 @@ Su propósito es facilitar la exploración y la interpretación de información 
 
 
 
-\## Objetivos
+## Objetivos
 
 
 
@@ -50,7 +50,7 @@ Su propósito es facilitar la exploración y la interpretación de información 
 
 
 
-\## Contenidos del atlas
+## Contenidos del atlas
 
 
 
@@ -80,7 +80,7 @@ El tablero reúne diez secciones temáticas que incluyen:
 
 
 
-\## Vista previa del atlas
+## Vista previa del atlas
 
 
 
@@ -88,31 +88,31 @@ A continuación, se presentan tres vistas representativas del atlas interactivo,
 
 
 
-\### Presentación y localización territorial
+### Presentación y localización territorial
 
 
 
-!\[Presentación del atlas de Río Negro y representación bicontinental de Argentina](capturas/presentacion.png)
+![Presentación del atlas de Río Negro y representación bicontinental de Argentina](capturas/presentacion.png)
 
 
 
-\### Ecorregiones, regiones productivas e hidrografía
+### Ecorregiones, regiones productivas e hidrografía
 
 
 
-!\[Cartografía temática de ecorregiones, regiones productivas, hidrografía y traza VMOS](capturas/ecorregiones.png)
+![Cartografía temática de ecorregiones, regiones productivas, hidrografía y traza VMOS](capturas/ecorregiones.png)
 
 
 
-\### Análisis espacial de gobiernos locales y traza VMOS
+### Análisis espacial de gobiernos locales y traza VMOS
 
 
 
-!\[Gobiernos locales de Río Negro intersectados por el oleoducto VMOS](capturas/gobiernos\_locales\_vmos.png)
+![Gobiernos locales de Río Negro intersectados por el oleoducto VMOS](capturas/gobiernos_locales_vmos.png)
 
 
 
-\## Metodología y trabajo cartográfico
+## Metodología y trabajo cartográfico
 
 
 
@@ -146,31 +146,23 @@ El producto combina criterios de la cartografía tradicional con las posibilidad
 
 
 
-\## Herramientas utilizadas
+## Herramientas utilizadas
 
 
 
 | Herramienta | Aplicación |
-
 |---|---|
-
 | R | Procesamiento y análisis de información |
-
 | R Markdown | Desarrollo reproducible del documento |
-
 | flexdashboard | Organización del tablero interactivo |
-
 | Leaflet | Visualización cartográfica web |
-
 | sf | Manipulación y análisis de datos espaciales |
-
 | GeoJSON | Almacenamiento e intercambio de información geográfica |
-
 | HTML, CSS y JavaScript | Presentación y componentes de interacción |
 
 
 
-\## Fuentes de información
+## Fuentes de información
 
 
 
@@ -178,15 +170,15 @@ El atlas integra información geográfica y estadística de organismos e institu
 
 
 
-Las fuentes específicas, los años de referencia y las observaciones metodológicas se detallan en el tablero y en el archivo \[LEEME.md](LEEME.md).
+Las fuentes específicas, los años de referencia y las observaciones metodológicas se detallan en el tablero y en el archivo [LEEME.md](LEEME.md).
 
 
 
-\*\*Red vial nacional y provincial:\*\* información geoespacial obtenida del Instituto Geográfico Nacional de la República Argentina (IGN), a través del \[Centro de Descargas de Capas SIG](https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG). Las capas fueron utilizadas como insumo para el procesamiento y la representación cartográfica del territorio provincial. Los archivos originales pueden consultarse y descargarse desde la fuente oficial. La fecha de actualización de los datos utilizados debe verificarse en sus metadatos correspondientes.
+**Red vial nacional y provincial:** información geoespacial obtenida del Instituto Geográfico Nacional de la República Argentina (IGN), a través del [Centro de Descargas de Capas SIG](https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG). Las capas fueron utilizadas como insumo para el procesamiento y la representación cartográfica del territorio provincial. Los archivos originales pueden consultarse y descargarse desde la fuente oficial. La fecha de actualización de los datos utilizados debe verificarse en sus metadatos correspondientes.
 
 
 
-\## Alcances y limitaciones
+## Alcances y limitaciones
 
 
 
@@ -202,19 +194,19 @@ Los resultados deben analizarse considerando la escala geográfica, la disponibi
 
 
 
-\## Documentación técnica
+## Documentación técnica
 
 
 
-Para consultar los aspectos metodológicos, las fuentes y los requisitos de ejecución del proyecto, ver \[LEEME.md](LEEME.md).
+Para consultar los aspectos metodológicos, las fuentes y los requisitos de ejecución del proyecto, ver [LEEME.md](LEEME.md).
 
 
 
-\## Autoría
+## Autoría
 
 
 
-\*\*Marcelo Haberkorn\*\*
+**Marcelo Haberkorn**
 
 Cartografía y análisis de información geoespacial
 
@@ -222,7 +214,7 @@ Río Negro, Argentina
 
 
 
-\[Perfil profesional en GitHub](https://github.com/marcelohaberkorn)
+[Perfil profesional en GitHub](https://github.com/marcelohaberkorn)
 
 
 
@@ -230,5 +222,5 @@ Río Negro, Argentina
 
 
 
-\*Proyecto desarrollado en el marco de una actividad académica de cartografía aplicada. Su publicación en este repositorio tiene fines de documentación técnica y presentación profesional de las capacidades desarrolladas por su autor.\*
+*Proyecto desarrollado en el marco de una actividad académica de cartografía aplicada. Su publicación en este repositorio tiene fines de documentación técnica y presentación profesional de las capacidades desarrolladas por su autor.*
 
