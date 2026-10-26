@@ -146,6 +146,10 @@ Las fuentes específicas, los años de referencia y las observaciones metodológ
 
 
 
+\*\*Red vial nacional y provincial:\*\* información geoespacial obtenida del Instituto Geográfico Nacional de la República Argentina (IGN), a través del \[Centro de Descargas de Capas SIG](https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG). Las capas fueron utilizadas como insumo para el procesamiento y la representación cartográfica del territorio provincial. Los archivos originales pueden consultarse y descargarse desde la fuente oficial. La fecha de actualización de los datos utilizados debe verificarse en sus metadatos correspondientes.
+
+
+
 \## Alcances y limitaciones
 
 
