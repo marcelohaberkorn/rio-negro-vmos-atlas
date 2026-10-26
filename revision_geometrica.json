@@ -1,0 +1,147 @@
+{
+  "ecorregiones": {
+    "entrada": 4,
+    "salida": 4,
+    "reparadas": 0,
+    "area_km2": 202222.94209312368,
+    "huecos_km2": 0.000839148544013499,
+    "fuera_km2": 4.865896304158923e-08,
+    "solapamiento_km2": 0.7941273529968261
+  },
+  "productivas": {
+    "entrada": 7,
+    "salida": 7,
+    "reparadas": 0,
+    "area_km2": 202221.8340182316,
+    "huecos_km2": 1.108914051847682,
+    "fuera_km2": 0.0,
+    "solapamiento_km2": -5.79833984375e-10
+  },
+  "embalses": {
+    "entrada": 19,
+    "salida": 19,
+    "reparadas": 1
+  },
+  "espejos": {
+    "entrada": 1470,
+    "salida": 1470,
+    "reparadas": 0
+  },
+  "corrientes": {
+    "entrada": 2420,
+    "salida": 2420,
+    "reparadas": 0
+  },
+  "agua_union_km2": 1772.9578939864448,
+  "area_provincia_km2": 202222.94293229474,
+  "gobiernos_locales": {
+    "entrada": 74,
+    "salida_recorte": 74,
+    "geometrias_invalidas": 0,
+    "municipios_capa": 39,
+    "comisiones_capa": 35,
+    "intersectados": 7,
+    "municipios_intersectados": 7,
+    "comisiones_intersectadas": 0,
+    "nombres": [
+      "Villa Regina",
+      "General Roca",
+      "San Antonio Oeste",
+      "Sierra Grande",
+      "Ingeniero Huergo",
+      "Mainque",
+      "General Enrique Godoy"
+    ],
+    "criterio": "Intersección geométrica exacta sin buffer, dentro del polígono provincial. Los 7 resultados contienen tramos lineales; no son contactos puntuales.",
+    "km_traza_rn_geodesicos": 437.33461104652145,
+    "km_sin_poligonos_geodesicos": 246.3944858004638
+  },
+  "zonas_sanitarias": {
+    "exceso_original_km2": 34.234731873337594,
+    "huecos_originales_km2": 1.5083123878415599,
+    "solapamientos_originales_km2": 0.047507994080660865,
+    "reparadas": 0,
+    "nombre_completado": {
+      "fid": 3,
+      "original": " ",
+      "rotulo": "Alto Valle Oeste",
+      "respaldo": "https://rionegro.gov.ar/download/archivos/00008627.pdf",
+      "comprobacion": "El polígono contiene Cipolletti, Cinco Saltos y Catriel; el documento oficial identifica esas ciudades como Alto Valle Oeste."
+    },
+    "huecos_finales_km2": 0.0,
+    "exceso_final_km2": 1.0816597491384528e-08,
+    "solapamientos_finales_km2": -5.820766091346741e-11,
+    "geometrias_finales_validas": true,
+    "ajustes_cobertura": 29,
+    "criterio_solapamientos": "Prioridad de fid original para micro-solapamientos; operación geométrica sin validación sanitaria administrativa.",
+    "intersectadas": [
+      "Alto Valle Este",
+      "Atlántica",
+      "Valle Medio"
+    ]
+  },
+  "asentamientos": {
+    "registros_originales": 356,
+    "puntos_por_multipoint_original": 1,
+    "registros_procesados": 356,
+    "codigos_unicos": 356,
+    "fuera_de_mascara_provincial": 0,
+    "metodo": "Distancia mínima elipsoidal WGS84 con lwgeom::st_geod_distance, tolerance=0; traza recortada a la provincia.",
+    "umbral_km": 20,
+    "regla": "distancia sin redondear <=20 km",
+    "seleccionados": 58,
+    "porcentaje": 16.292134831460675,
+    "seleccion_por_tipo": {
+      "Entidad": 2,
+      "Localidad simple": 44,
+      "Paraje": 10,
+      "Componente de localidad compuesta": 2
+    },
+    "caso_proximo_al_umbral": {
+      "gid": 9911,
+      "codigo_indec_provincia": "62",
+      "nombre_provincia": "Río Negro",
+      "codigo_indec_departamento": "62042",
+      "nombre_departamento": "General Roca",
+      "codigo_asentamiento": "62042100",
+      "nombre_geografico": "Barrio Costa Linda",
+      "tipo_asentamiento": "Localidad simple",
+      "codigo_aglomerado": "6353",
+      "nombre_aglomerado": "Barrio Costa Linda",
+      "codigo_indec_gobierno_local": "620154",
+      "nombre_gobierno_local": "General Fernández Oro",
+      "latitud_grado_decimal": "-38.943059",
+      "longitud_grado_decimal": "-67.909879",
+      "latitud_grado_sexagecimal": "-38º56'35\"",
+      "longitud_grado_sexagecimal": "-67º54'36\"",
+      "fuente_de_captura": "INDEC",
+      "distancia_vmos_km": 20.02098998963407,
+      "hasta_20_km": false
+    },
+    "banda_visual": "Buffer 20.000 m en AEQD local (-40,-67), recortado; sólo representación aproximada; cero discrepancias de inclusión para los 356 puntos.",
+    "nota_atributos": "Un registro declara Biedma (26007) aunque el punto cae en Río Negro. Se conserva el atributo original; el universo provincial se verificó por geometría.",
+    "atributo_departamental_a_revisar": [
+      {
+        "gid": 6063,
+        "codigo_indec_provincia": "62",
+        "nombre_provincia": "Río Negro",
+        "codigo_indec_departamento": "26007",
+        "nombre_departamento": "Biedma",
+        "codigo_asentamiento": "26007010",
+        "nombre_geografico": "Arroyo Verde",
+        "tipo_asentamiento": "Localidad simple",
+        "codigo_aglomerado": "5513",
+        "nombre_aglomerado": "Arroyo Verde",
+        "codigo_indec_gobierno_local": "260000",
+        "nombre_gobierno_local": "sin gobierno local",
+        "latitud_grado_decimal": "-41.996304",
+        "longitud_grado_decimal": "-65.293172",
+        "latitud_grado_sexagecimal": "-41º59'47\"",
+        "longitud_grado_sexagecimal": "-65º17'35\"",
+        "fuente_de_captura": "INDEC",
+        "distancia_vmos_km": 34.06881334217631,
+        "hasta_20_km": false
+      }
+    ]
+  }
+}

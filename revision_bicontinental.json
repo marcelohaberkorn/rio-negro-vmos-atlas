@@ -1,0 +1,59 @@
+{
+  "fuente": "Mapa Argentina Bicontinental QGIS del IGN, actualización mayo de 2025; insumo aportado por el autor",
+  "generalizacion_m": 250,
+  "uso": "Generalización exclusiva para visualización nacional. No reemplaza las capas analíticas provinciales.",
+  "provincias": {
+    "entidades": 24,
+    "vertices": 45675,
+    "total": 24,
+    "rio_negro_color": "#087D70",
+    "otras_provincias_color": "#EEE8CE"
+  },
+  "limites": {
+    "entidades": 1974,
+    "vertices": 44882
+  },
+  "contexto": {
+    "entidades": 1065,
+    "vertices": 100711
+  },
+  "plataforma": {
+    "entidades": 1,
+    "vertices": 17607
+  },
+  "lineas_terrestres": {
+    "entidades": 2,
+    "vertices": 138
+  },
+  "reticula": {
+    "entidades": 14,
+    "vertices": 4237
+  },
+  "toponimos": {
+    "entidades": 25,
+    "vertices": 98
+  },
+  "reparaciones_visualizacion": [
+    {
+      "provincia": "Tierra del Fuego, Antártida e Islas del Atlántico Sur",
+      "motivo": "Hole lies outside shell[-91842.1251022076 -1222011.39645754]",
+      "cambio_area_m2": 871.0771484375
+    }
+  ],
+  "revision_2026_10_23": {
+    "visualizacion": "Lambert acimutal equiárea del proyecto IGN; WGS 84 declarado por las capas",
+    "provincias": "Mismo pastel salvo Río Negro",
+    "capas": "Todas activas, sin selector de capas en la presentación",
+    "referencias": "Sin entrada Río Negro ni listado de colores provinciales",
+    "creditos": "Firma y composición institucional solicitadas",
+    "norte": "Dirección proyectada del meridiano en el centro de la vista; flecha y letra N giran juntas y se actualizan con la vista."
+  },
+  "proyeccion_original": "+proj=laea +lat_0=-40 +lon_0=-60 +x_0=-90 +y_0=0 +datum=WGS84 +units=m +no_defs",
+  "ventana_original_m": {
+    "xmin": -1439851.2529,
+    "ymin": -5403152.6946,
+    "xmax": 2399998.751,
+    "ymax": 2193032.779
+  },
+  "proyeccion_visualizacion": "+proj=laea +lat_0=-40 +lon_0=-60 +x_0=-90 +y_0=0 +datum=WGS84 +units=m +no_defs"
+}

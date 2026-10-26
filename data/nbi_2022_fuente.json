@@ -1,0 +1,125 @@
+{
+  "fuente": "de Grande y Salvia. Indicadores del Censo 2022. Poblaciones/CONICET. Procesamiento de REDATAM INDEC.",
+  "url_dataset": "https://datosdeinvestigacion.conicet.gov.ar/handle/11336/277944",
+  "url_servicio": "https://datos-poblaciones.conicet.gov.ar/services/frontend/metrics/GetMetricData?l=3401&v=560301&a=598201&u=N&w=4276770995",
+  "metodo": "Puntos representativos del servicio contenidos en el departamento; verificación exacta 13/13 del denominador con HOGARES de la capa aportada. No se asumieron FIDs ni se prorrateó población.",
+  "Data": [
+    {
+      "Lat": -40.150773,
+      "Lon": -64.304032,
+      "FID": 1177472,
+      "VID": 1003901,
+      "Value": 132,
+      "Total": 2721,
+      "LID": 20846201
+    },
+    {
+      "Lat": -40.970572,
+      "Lon": -66.311327,
+      "FID": 1177509,
+      "VID": 1003901,
+      "Value": 79,
+      "Total": 1631,
+      "LID": 20846201
+    },
+    {
+      "Lat": -40.956805,
+      "Lon": -65.371621,
+      "FID": 1177497,
+      "VID": 1003901,
+      "Value": 633,
+      "Total": 13177,
+      "LID": 20846201
+    },
+    {
+      "Lat": -40.902011,
+      "Lon": -67.460782,
+      "FID": 1177510,
+      "VID": 1003901,
+      "Value": 100,
+      "Total": 1453,
+      "LID": 20846201
+    },
+    {
+      "Lat": -41.743981,
+      "Lon": -70.408155,
+      "FID": 1177512,
+      "VID": 1003901,
+      "Value": 39,
+      "Total": 597,
+      "LID": 20846201
+    },
+    {
+      "Lat": -41.144023,
+      "Lon": -68.909358,
+      "FID": 1177513,
+      "VID": 1003901,
+      "Value": 536,
+      "Total": 6007,
+      "LID": 20846301
+    },
+    {
+      "Lat": -40.88351,
+      "Lon": -70.445353,
+      "FID": 1177515,
+      "VID": 1003901,
+      "Value": 198,
+      "Total": 3589,
+      "LID": 20846201
+    },
+    {
+      "Lat": -39.695937,
+      "Lon": -68.480969,
+      "FID": 1177639,
+      "VID": 1003901,
+      "Value": 283,
+      "Total": 2648,
+      "LID": 20846601
+    },
+    {
+      "Lat": -40.790804,
+      "Lon": -63.765883,
+      "FID": 1177543,
+      "VID": 1003901,
+      "Value": 1219,
+      "Total": 24254,
+      "LID": 20846201
+    },
+    {
+      "Lat": -39.409221,
+      "Lon": -64.405248,
+      "FID": 1177456,
+      "VID": 1003901,
+      "Value": 192,
+      "Total": 6257,
+      "LID": 20846201
+    },
+    {
+      "Lat": -41.499853,
+      "Lon": -71.530293,
+      "FID": 1177544,
+      "VID": 1003901,
+      "Value": 4210,
+      "Total": 63087,
+      "LID": 20846201
+    },
+    {
+      "Lat": -39.405704,
+      "Lon": -66.193902,
+      "FID": 1177614,
+      "VID": 1003901,
+      "Value": 877,
+      "Total": 14951,
+      "LID": 20846201
+    },
+    {
+      "Lat": -38.531565,
+      "Lon": -67.555192,
+      "FID": 1177615,
+      "VID": 1003901,
+      "Value": 7949,
+      "Total": 138563,
+      "LID": 20846201
+    }
+  ]
+}

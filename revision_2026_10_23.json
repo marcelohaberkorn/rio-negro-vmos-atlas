@@ -1,0 +1,70 @@
+{
+  "fecha": "2026-10-23",
+  "revision": 3,
+  "compilacion": "Rmarkdown y Pandoc, cálculo separado de conversión. HTML generado correctamente. No verificado en el equipo Windows del autor.",
+  "pestanas_verificadas": 10,
+  "errores_javascript": [],
+  "recursos_locales_faltantes": [],
+  "nbi": {
+    "cortes_comunes": [
+      0,
+      5,
+      10,
+      15,
+      20
+    ],
+    "mismos_colores": true,
+    "valores_originales_conservados": true,
+    "componentes": "Clasificaciones originales conservadas"
+  },
+  "presentacion": {
+    "proyeccion": "Lambert acimutal equiárea del proyecto IGN",
+    "paleta": "Río Negro destacado, resto de provincias mismo pastel",
+    "norte": "Derivada proyectada del meridiano, calculada sin redondear a píxeles; validada con sf/PROJ en tres vistas con error menor a 0,0001 grados",
+    "pruebas_norte": [
+      {
+        "lat": -52.12166316989203,
+        "lng": -35.28341793868475,
+        "angle": 18.75528485265643,
+        "crs": "IGN:BICONTINENTAL",
+        "transform": "rotate(18.75528485265643 30 38)"
+      },
+      {
+        "lat": -40.10580249200036,
+        "lng": -65.30750017207261,
+        "angle": -3.4120162223604518,
+        "crs": "IGN:BICONTINENTAL",
+        "transform": "rotate(-3.4120162223604518 30 38)"
+      },
+      {
+        "lat": -64.95218532204228,
+        "lng": -35.01792635963971,
+        "angle": 22.22938706899171,
+        "crs": "IGN:BICONTINENTAL",
+        "transform": "rotate(22.22938706899171 30 38)"
+      }
+    ],
+    "grafica": "Imagen completa con línea docente solicitada compuesta en HTML"
+  },
+  "produccion": {
+    "iconos": [
+      "oveja",
+      "vaca"
+    ],
+    "PerMan_18": "Superficie cultivada, hectáreas, 2018; mismos valores originales",
+    "fuente": "https://www.argentina.gob.ar/sites/default/files/39_2022_rio_negro.pdf#page=17"
+  },
+  "popups_asentamientos": {
+    "count": 356,
+    "allHaveDistance": true,
+    "redundant": 0,
+    "sample": "<div class=\"popup-rn\"><strong>San Carlos de Bariloche</strong><br>Entidad<br>Distancia mínima a la traza: 394,206 km<br><small>Distancia geodésica del punto BAHRA; no es distancia vial.</small></div>"
+  },
+  "visualizacion": "1366x900 y 1918x1027. Mapas base del IGN requieren conexión.",
+  "estado": "Versión final",
+  "ultimas_correcciones": [
+    "Eliminadas aclaraciones 3 y 4 de la presentación",
+    "cabezas ovinas - dato 2022",
+    "cabezas bovinas - datos 2021"
+  ]
+}

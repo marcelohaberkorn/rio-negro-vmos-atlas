@@ -1,0 +1,35 @@
+{
+  "fecha": "2026-10-23",
+  "cruce_poblacion": "13/13 por CODIGO = cod_dpto, sin duplicados ni faltantes",
+  "poblacion_total": 750768,
+  "poblacion_viviendas_particulares": 747697,
+  "radios_urbanos": 693065,
+  "radios_rurales_mixtos": 54632,
+  "radios_rurales_puros": 6518,
+  "radios_mixtos": 48114,
+  "metodo_nbi": "Hogares con al menos una NBI de Poblaciones/CONICET (REDATAM 2022), numerador y denominador documentados. Cruce geográfico de punto representativo y confirmación exacta de HOGARES en 13/13 departamentos. Campo NBI_TOTAL original se conserva y se excluye del indicador.",
+  "hogares": 278935,
+  "hogares_con_nbi": 16447,
+  "originales": "Departamentos.geojson, tabla CSV validada y capas anteriores preservadas. Sólo copias visuales generalizadas a 90 m (40 m para vías y VMOS); análisis sobre las geometrías originales.",
+  "jenks": "Se conservan valores y clasificación de población, producción y componentes NBI. Los totales NBI 2010 y 2022 pasan a intervalos iguales comunes de 5 puntos porcentuales, con la misma paleta. Los demás rangos de leyenda mantienen su formato redondeado.",
+  "cobertura_departamental_km2": {
+    "fuera_mascara_provincial": 216.9316340677914,
+    "mascara_no_cubierta": 1.3822820425979641e-06,
+    "criterio": "Se conserva la geometría original de departamentos. Las diferencias entre fuentes no se rellenan ni se reasignan."
+  },
+  "metadatos_confirmados": {
+    "PerMan_18": "Superficie cultivada conjunta de peras y manzanas, 2018, hectáreas. Verificada en Informe productivo provincial Río Negro, mayo 2022, p. 17. Se corrige la unidad toneladas de la entrega anterior.",
+    "dimensiones_NBI": "Cinco dimensiones del Censo 2022; confirmado por el autor."
+  },
+  "fuente_frutas": "https://www.argentina.gob.ar/sites/default/files/39_2022_rio_negro.pdf#page=17",
+  "clasificacion_nbi_comparable": {
+    "cortes": [
+      0,
+      5,
+      10,
+      15,
+      20
+    ],
+    "metodo": "Intervalos iguales de cinco puntos porcentuales, mismos colores y límites para 2010 y 2022; componentes separados con Jenks."
+  }
+}
