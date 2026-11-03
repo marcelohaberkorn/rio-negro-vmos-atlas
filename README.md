@@ -18,6 +18,22 @@
 
 
 
+## Versión vigente · 3 de noviembre de 2026
+
+El enlace público muestra la revisión de cierre del atlas, organizada en **Ambiente**, **Sociedad y producción** e **Infraestructuras y territorios**, con diez pestañas y síntesis territorial.
+
+- Presentación bicontinental en Lambert, norte geográfico dinámico y nuevos logos institucionales completos.
+- Comparación NBI 2010–2022 con los mismos intervalos y colores; población 2022 contrastada con la tabla validada y universos identificados.
+- Producción: existencias ovinas 2022, bovinas 2021 y superficie conjunta de peras y manzanas 2018 en hectáreas, con fuentes enlazadas.
+- Ferrocarriles, estaciones, diques y balsas con simbología basada en el IGN; consultas documentadas para las cuatro estaciones contrastadas con Tren Patagónico.
+- Hidrografía suavizada y selección del dibujo principal por tramos, sin opción de trazados auxiliares. Las capas de agua, diques y muros muestran nombres al pasar el cursor.
+- Recorte de departamentos por el límite provincial, corrección de costa de San Antonio Oeste y rotulación areal adaptativa.
+- Selector de Asentamientos con una sola zona desplazable y navegación simplificada; fuentes, aclaraciones y conclusiones revisadas.
+
+[Historial de cambios](CHANGELOG.md) · [Detalle del cierre](REVISION_CIERRE_20261103.md) · [Controles de la versión](revision_cierre_20261103.json) · [Uso y recompilación](LEEME.md)
+
+La fuente editable está en `Tablero_Rio_Negro.Rmd`; `docs/index.html` conserva el contenido de la salida aprobada, con los datos de cada mapa en scripts externos para su publicación. El HTML original sin modificaciones se conserva en `distribucion/Tablero_Rio_Negro.html.gz`. Para recompilar desde RStudio, ejecutar `source("Compilar_tablero.R")` en la raíz del repositorio. Para preparar la publicación, ejecutar después `python Publicar_tablero.py`. No se requiere volver a procesar las geometrías de dibujo incluidas.
+
 ## Descripción del proyecto
 
 
@@ -84,7 +100,7 @@ El tablero reúne diez secciones temáticas que incluyen:
 
 
 
-A continuación, se presentan tres vistas representativas del atlas interactivo, que ilustran su diseño cartográfico, la integración de información territorial y la aplicación de análisis espacial.
+Las siguientes capturas corresponden a la publicación inicial de octubre de 2026 y se conservan como referencia del proyecto. Para consultar la composición y las funcionalidades vigentes, abrir el [tablero actualizado](https://marcelohaberkorn.github.io/rio-negro-vmos-atlas/).
 
 
 

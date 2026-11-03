@@ -1,0 +1,124 @@
+[
+  {
+    "capa": "diques",
+    "typeName": "ign:puntos_de_aguas_continentales_BH051",
+    "fuente": "https://wms.ign.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ign%3Apuntos_de_aguas_continentales_BH051&outputFormat=application%2Fjson&srsName=EPSG%3A4326&bbox=-73%2C-43%2C-62%2C-36.5%2CEPSG%3A4326",
+    "cantidad_bbox": 12,
+    "properties_ejemplo": [
+      {
+        "gid": 2582,
+        "entidad": 3,
+        "objeto": "Dique",
+        "fna": "Salto Andersen",
+        "gna": "Salto",
+        "nam": "Andersen",
+        "fun": -1,
+        "fdc": "IGN/adnrionegro.com.ar.",
+        "sag": "IGN"
+      },
+      {
+        "gid": 2583,
+        "entidad": 3,
+        "objeto": "Dique",
+        "fna": "Dique Punto Unido",
+        "gna": "Dique",
+        "nam": "Punto Unido",
+        "fun": -1,
+        "fdc": "IGN/ ina.gob.ar.",
+        "sag": "IGN"
+      }
+    ]
+  },
+  {
+    "capa": "estaciones_ferrocarril",
+    "typeName": "ign:puntos_de_transporte_ferroviario_AN070",
+    "fuente": "https://wms.ign.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ign%3Apuntos_de_transporte_ferroviario_AN070&outputFormat=application%2Fjson&srsName=EPSG%3A4326&bbox=-73%2C-43%2C-62%2C-36.5%2CEPSG%3A4326",
+    "cantidad_bbox": 212,
+    "properties_ejemplo": [
+      {
+        "gid": 4943,
+        "entidad": 0,
+        "fna": "Estación Spurr",
+        "gna": "Estación",
+        "nam": "Spurr",
+        "fun": 2,
+        "fdc": "IGN/Ministerio de Transporte de la Nación",
+        "sag": "IGN"
+      },
+      {
+        "gid": 4953,
+        "entidad": 0,
+        "fna": "Estación General Liborio Bernal",
+        "gna": "Estación",
+        "nam": "General Liborio Bernal",
+        "fun": 2,
+        "fdc": "IGN/Ministerio de Transporte de la Nación",
+        "sag": "IGN"
+      }
+    ]
+  },
+  {
+    "capa": "muros_embalse",
+    "typeName": "ign:lineas_de_aguas_continentales_BI020",
+    "fuente": "https://wms.ign.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ign%3Alineas_de_aguas_continentales_BI020&outputFormat=application%2Fjson&srsName=EPSG%3A4326&bbox=-73%2C-43%2C-62%2C-36.5%2CEPSG%3A4326",
+    "cantidad_bbox": 25,
+    "properties_ejemplo": [
+      {
+        "gid": 804224,
+        "entidad": 6,
+        "objeto": "Muro de embalse",
+        "fna": "Dique Casa de Piedra",
+        "gna": "Dique",
+        "nam": "Casa de Piedra",
+        "fdc": "IGN/ina.gov.ar.",
+        "sag": "IGN"
+      },
+      {
+        "gid": 825737,
+        "entidad": 6,
+        "objeto": "Muro de embalse",
+        "fna": "Dique Arroyito",
+        "gna": "Dique",
+        "nam": "Arroyito",
+        "fdc": "Esri-world_imagery-2010/IGN01/IGN04/IGN Mapa Provincial Neuquén",
+        "sag": "IGN"
+      }
+    ]
+  },
+  {
+    "capa": "ferrocarriles",
+    "typeName": "ign:lineas_de_transporte_ferroviario_AN010",
+    "fuente": "https://wms.ign.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ign%3Alineas_de_transporte_ferroviario_AN010&outputFormat=application%2Fjson&srsName=EPSG%3A4326&bbox=-73%2C-43%2C-62%2C-36.5%2CEPSG%3A4326",
+    "cantidad_bbox": 102,
+    "properties_ejemplo": [
+      {
+        "gid": 2204,
+        "entidad": 0,
+        "objeto": "Ferrocarril",
+        "fna": "Ferrocarril Nacional General Roca Ramal R109",
+        "gna": "Ferrocarril Nacional",
+        "nam": "General Roca Ramal R109",
+        "fun": 2,
+        "rgc": 1,
+        "ltn": 1,
+        "loc": 44,
+        "fdc": "IGN/Ministerio de Transporte de la Nación",
+        "sag": "IGN"
+      },
+      {
+        "gid": 2205,
+        "entidad": 0,
+        "objeto": "Ferrocarril",
+        "fna": "Ferrocarril Nacional General Roca Ramal R53",
+        "gna": "Ferrocarril Nacional",
+        "nam": "General Roca Ramal R53",
+        "fun": 2,
+        "rgc": 1,
+        "ltn": 1,
+        "loc": 44,
+        "fdc": "IGN/Ministerio de Transporte de la Nación",
+        "sag": "IGN"
+      }
+    ]
+  }
+]

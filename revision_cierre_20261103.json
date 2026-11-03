@@ -1,0 +1,88 @@
+{
+  "fecha": "2026-11-03",
+  "revision": "Ajustes de cierre sobre la entrega revisada el mismo día",
+  "geometrias": {
+    "departamentos": [
+      {
+        "nombre": "Conesa",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "Valcheta",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "San Antonio",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "9 de Julio",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "Ñorquinco",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "25 de Mayo",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "Pilcaniyeu",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "El Cuy",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "Adolfo Alsina",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "Pichi Mahuida",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "Bariloche",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "Avellaneda",
+        "area_fuera_provincia_m2": 0.0
+      },
+      {
+        "nombre": "General Roca",
+        "area_fuera_provincia_m2": 0.0
+      }
+    ],
+    "tablas_analiticas_y_fuentes_originales": "idénticas a la versión anterior",
+    "coincidencia_costa_SAO_tramos_a_mas_1_m": 0.0,
+    "nuevos_solapamientos_municipales_m2": 0
+  },
+  "hidrografia": {
+    "corrientes_partes_retiradas": 49,
+    "corrientes_partes_visibles": 5151,
+    "nuevas_partes_retiradas": 21
+  },
+  "metodo_hidrografia": "Conectividad a 5 m sobre los originales, continuidad por cuerpos de agua a 30 m; revisión por componentes después de las exclusiones previas. Se retiran del dibujo componentes sin enlace al principal en el corredor del río Negro y fragmentos sin nombre menores de 500 m sin continuidad acuática o limítrofe. No se añaden conexiones inventadas ni se modifican las fuentes analíticas.",
+  "capas_auxiliares_en_visor": false,
+  "representacion_SAO": "Alineación de dibujo con la línea de costa del visor; conserva atributos y análisis de la fuente original.",
+  "tablas_y_logos": "Conservados, comparación de bytes con la entrega anterior.",
+  "validacion_html": {
+    "pestanas": 10,
+    "errores_javascript": [],
+    "recursos_locales_faltantes": [],
+    "logos_cargados": 30,
+    "ventanas_agua_al_clic": 0,
+    "agua_sin_nombre_al_cursor": 0,
+    "estaciones_ferroviarias": 63,
+    "estaciones_con_popup_documentado": 4,
+    "rotulos_comprobados": 156,
+    "rotulos_fuera_de_su_poligono_o_visor": [],
+    "scrollbars_en_selector_asentamientos": 1,
+    "botones_contexto_y_cercania": false,
+    "grupo_y_referencia_hidrografia_auxiliar": false,
+    "compilacion": "R y Pandoc en procesos separados, verificación Chromium; no ejecutado en el Windows del autor"
+  }
+}

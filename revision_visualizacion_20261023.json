@@ -1,0 +1,164 @@
+[
+  {
+    "capa": "sanitarias_original",
+    "original_bytes": 1058637,
+    "visual_bytes": 95844,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "costa",
+    "original_bytes": 4078802,
+    "visual_bytes": 151053,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "embalses",
+    "original_bytes": 695142,
+    "visual_bytes": 88638,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "espejos",
+    "original_bytes": 2393325,
+    "visual_bytes": 718507,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "centrales",
+    "original_bytes": 7262,
+    "visual_bytes": 7304,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "alta",
+    "original_bytes": 48860,
+    "visual_bytes": 24414,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "media",
+    "original_bytes": 8772722,
+    "visual_bytes": 8137575,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "gobiernos_intersectados",
+    "original_bytes": 557202,
+    "visual_bytes": 47972,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "vial_nacional",
+    "original_bytes": 352189,
+    "visual_bytes": 92705,
+    "tolerancia_m": 40
+  },
+  {
+    "capa": "ecorregiones",
+    "original_bytes": 957166,
+    "visual_bytes": 102453,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "sanitarias",
+    "original_bytes": 971471,
+    "visual_bytes": 102692,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "productivas",
+    "original_bytes": 1061587,
+    "visual_bytes": 232755,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "provincia",
+    "original_bytes": 1080610,
+    "visual_bytes": 194444,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "asentamientos",
+    "original_bytes": 283556,
+    "visual_bytes": 265633,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "estaciones",
+    "original_bytes": 2016,
+    "visual_bytes": 2010,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "buenos_aires",
+    "original_bytes": 249085,
+    "visual_bytes": 165699,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "departamental",
+    "original_bytes": 53400,
+    "visual_bytes": 15716,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "gobiernos",
+    "original_bytes": 1313849,
+    "visual_bytes": 366995,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "internacional",
+    "original_bytes": 598316,
+    "visual_bytes": 62910,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "sanitarias_ajustes",
+    "original_bytes": 15341,
+    "visual_bytes": 10436,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "corrientes",
+    "original_bytes": 2927699,
+    "visual_bytes": 1217876,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "provincial",
+    "original_bytes": 837933,
+    "visual_bytes": 81543,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "asentamientos_original",
+    "original_bytes": 264435,
+    "visual_bytes": 244913,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "vial_provincial",
+    "original_bytes": 676055,
+    "visual_bytes": 197392,
+    "tolerancia_m": 40
+  },
+  {
+    "capa": "entorno20km",
+    "original_bytes": 242887,
+    "visual_bytes": 30519,
+    "tolerancia_m": 90
+  },
+  {
+    "capa": "vmos",
+    "original_bytes": 253689,
+    "visual_bytes": 4522,
+    "tolerancia_m": 40
+  },
+  {
+    "capa": "departamentos",
+    "original_bytes": 1243774,
+    "visual_bytes": 249724,
+    "tolerancia_m": 90
+  }
+]

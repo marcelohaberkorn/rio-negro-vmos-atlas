@@ -316,7 +316,7 @@ pie_datos<-list(provincia=list(nombre='Río Negro · viviendas particulares',
 
 # Geometrías de visualización independientes de las operaciones y de las métricas.
 # Se conservan las coordenadas originales para distancias e intersecciones.
-for(k in names(capas)){
+for(k in setdiff(names(capas),'corrientes')){
  p<-file.path('data','visual',paste0(k,'.geojson'))
  if(file.exists(p)){
    visual<-st_transform(st_zm(st_read(p,quiet=TRUE)),4326)
@@ -324,20 +324,109 @@ for(k in names(capas)){
    st_geometry(capas[[k]])<-st_geometry(visual)
  }
 }
+# Dibujo por partes depurado; los originales de análisis se conservan en data.
+capas$corrientes<-st_transform(st_zm(st_read('data/visual/corrientes_principales.geojson',quiet=TRUE)),4326)
 # Media tensión: 31.324 tramos se combinan en un solo objeto de dibujo.
 # El mapa no utiliza sus atributos; los originales completos permanecen en data.
 capas$media<-st_sf(geometry=st_combine(st_geometry(capas$media)))
 
-logo_html <- NULL
-if (file.exists('assets/logo_original.png')) {
-  logo <- 'assets/logo_original.png'
-  logo_html <- paste0(paste0(
-    '<div class="logo-recorte ',c('logo-uns','logo-dgyt','logo-cdc'),
-    '" role="img" aria-label="',
-    c('Universidad Nacional del Sur','Departamento de Geografía y Turismo',
-      'Laboratorio de Cartografía Digital'),
-    '" style="background-image:url(',logo,')"></div>'),collapse='')
+# Infraestructura oficial de referencia. No infiere servicio ni capacidad.
+infra_datos <- setNames(lapply(c('ferrocarriles','estaciones_ferrocarril','diques','muros_embalse'),function(k)
+  st_transform(st_zm(st_read(file.path('data',paste0(k,'.geojson')),quiet=TRUE)),4326)),
+  c('ferrocarriles','estaciones_ferrocarril','diques','muros_embalse'))
+dependencia_cartografica <- function(m) {
+  m$dependencies <- c(m$dependencies,list(htmlDependency('cartografia-rn','2026.11.3.1',
+    src=c(file=normalizePath('assets')),script=c('rotulos_areales.js','cartografia_areas.js'),all_files=FALSE)))
+  m
 }
+signo_estacion <- '<rect x="5" y="6" width="6" height="4" fill="#202020"/>'
+signo_dique <- '<path d="M10 3 C3 3 3 13 10 13" fill="none" stroke="#202020" stroke-width="1.7"/>'
+svg_infra <- function(signo)paste0('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">',signo,'</svg>')
+icono_infra <- function(signo,clase)makeIcon(iconUrl=paste0('data:image/svg+xml;base64,',
+  base64enc::base64encode(charToRaw(svg_infra(signo)))),iconWidth=16,iconHeight=16,iconAnchorX=8,iconAnchorY=8,
+  className=clase)
+popup_infra <- function(d,tipo) {
+ if(tipo=='Estación ferroviaria')return(paste0('<div class="popup-rn"><strong>',
+   esc(campo(d,'fna')),'</strong><br><a href="https://trenpatagonicosa.com.ar/las-estaciones/" ',
+   'target="_blank" rel="noopener noreferrer"><strong>Tren Patagónico</strong></a><br>',
+   esc(campo(d,'direccion_operador')),'</div>'))
+ paste0('<div class="popup-rn"><strong>',esc(campo(d,'fna',tipo)),
+  '</strong><br>',tipo,'<br>Fuente cartográfica: IGN · consulta 02/11/2026',
+  if(tipo=='Ferrocarril')'<br>La capa no permite certificar servicio, trocha ni número de vías.' else '',
+  '</div>')
+}
+agregar_infraestructura <- function(m,tema) {
+  grupos<-character();refs<-list();activos_extra<-character()
+  if(tema %in% c('asentamientos','produccion','sintesis')) {
+    d<-infra_datos$ferrocarriles;g<-'Ferrocarriles'
+    m<-addPolylines(m,data=d,color='#202020',weight=.9,opacity=1,group=g,
+      popup=popup_infra(d,'Ferrocarril'),options=pathOptions(pane='red',smoothFactor=.15,lineCap='butt'))
+    # Eje continuo y traviesas, adaptación de pequeña escala del signo IGN 52.
+    m<-addPolylines(m,data=d,color='#202020',weight=5,opacity=1,dashArray='1 17',group=g,
+      options=pathOptions(pane='red',smoothFactor=.15,lineCap='butt',interactive=FALSE))
+    d<-infra_datos$estaciones_ferrocarril
+    documentada<-nzchar(campo(d,'fuente_contraste'))
+    for(verificada in c(FALSE,TRUE)) {
+      j<-which(documentada==verificada)
+      if(length(j))m<-addMarkers(m,data=d[j,],group='Estaciones ferroviarias',
+        icon=icono_infra(signo_estacion,'estacion-ferroviaria'),
+        popup=if(verificada)popup_infra(d[j,],'Estación ferroviaria')else NULL,
+        label=campo(d[j,],'fna','Estación ferroviaria'),
+        layerId=paste0('estacion-ferroviaria-',campo(d[j,],'gid')))
+    }
+    grupos<-c(grupos,g,'Estaciones ferroviarias')
+    refs<-append(refs,list(
+      list(kind='infra-svg',svg='<path d="M1 9 H56" stroke="#202020" stroke-width=".9"/><path d="M1 9 H56" stroke="#202020" stroke-width="5" stroke-dasharray="1 17"/>',
+        label='Ferrocarril · traza cartografiada',group=g,section='Infraestructura de transporte'),
+      list(kind='infra-svg',svg=paste0('<g transform="translate(20 1)">',signo_estacion,'</g>'),
+        label='Estación ferroviaria · zoom ≥ 8',group='Estaciones ferroviarias',section='Infraestructura de transporte')))
+    if(tema=='asentamientos')activos_extra<-c(g,'Estaciones ferroviarias')
+  }
+  if(tema %in% c('ambiente','electricidad','produccion','asentamientos','sintesis')) {
+    g<-'Diques y muros de embalse';d<-infra_datos$muros_embalse
+    m<-addPolylines(m,data=d,color='#202020',weight=1.6,group=g,
+      label=campo(d,'fna','Muro de embalse'),options=pathOptions(pane='instalaciones',smoothFactor=.15))
+    d<-infra_datos$diques
+    m<-addMarkers(m,data=d,group=g,icon=icono_infra(signo_dique,'dique-ign'),
+      label=campo(d,'fna','Dique / represa'))
+    grupos<-c(grupos,g)
+    refs<-append(refs,list(list(kind='infra-svg',
+      svg=paste0('<path d="M1 9 H17" stroke="#202020" stroke-width="1.6"/><g transform="translate(28 1)">',signo_dique,'</g>'),
+      label='Muro de embalse / dique o represa',group=g,section='Obras hidráulicas')))
+  }
+  # Dos cruces georreferenciados por el autor; descripción contrastada con Vialidad.
+  if(tema %in% c('ambiente','asentamientos','sintesis')) {
+    b<-st_transform(st_zm(st_read('data/balsas.geojson',quiet=TRUE)),4326)
+    if(nrow(b)) {
+      if(any(!st_geometry_type(b) %in% 'POINT'))stop('La capa de balsas debe contener puntos.')
+      svg_balsa<-paste(readLines('assets/signo_balsa_IGN72.svg',warn=FALSE),collapse='')
+      svg_vertical<-paste(readLines('assets/signo_balsa_Sauce_Blanco_vertical.svg',warn=FALSE),collapse='')
+      for(i in seq_len(nrow(b))) {
+        vertical<-campo(b[i,],'nombre')=='Balsa Sauce Blanco'
+        icono_balsa<-makeIcon(iconUrl=paste0('data:image/svg+xml;base64,',
+          base64enc::base64encode(charToRaw(if(vertical)svg_vertical else svg_balsa))),
+          iconWidth=40,iconHeight=if(vertical)40 else 24,iconAnchorX=21,iconAnchorY=if(vertical)20 else 12)
+        popup<-paste0('<div class="popup-rn"><strong>',esc(campo(b[i,],'nombre')),'</strong><br>',
+          if(!vertical)paste0(esc(campo(b[i,],'rio')),' · ',esc(campo(b[i,],'localidad')),'<br>')else '',
+          esc(campo(b[i,],'descripcion')),
+          '<br><a href="https://vialidad.rionegro.gov.ar/servicio/213/balsas?n=ODAw" target="_blank" rel="noopener noreferrer">Información de Vialidad Rionegrina</a></div>')
+        m<-addMarkers(m,data=b[i,],group='Balsas',icon=icono_balsa,popup=popup,
+          label=campo(b[i,],'nombre'),layerId=paste0('balsa-',i))
+      }
+      grupos<-c(grupos,'Balsas');activos_extra<-c(activos_extra,'Balsas')
+      refs<-append(refs,list(list(kind='infra-svg',svg=paste0('<g transform="translate(8 0)">',svg_balsa,'</g>'),
+        label='Balsa impulsada por la corriente de agua',group='Balsas',section='Cruces fluviales')))
+    }
+  }
+  if(length(setdiff(grupos,activos_extra)))m<-hideGroup(m,setdiff(grupos,activos_extra))
+  list(m=m,grupos=grupos,referencias=refs,activos=activos_extra)
+}
+
+logos_archivos<-c('assets/logo_uns.jpg','assets/logo_dgyt.png','assets/logo_cdc.jpg')
+if(any(!file.exists(logos_archivos)))stop('Faltan los logos institucionales en assets.')
+logo_html<-paste0('<img class="logo-institucional" src="',logos_archivos,'" alt="',
+ c('Universidad Nacional del Sur','Departamento de Geografía y Turismo',
+   'Centro de Documentación Cartográfica'),'">',collapse='')
 
 linea <- function(m,d,k,grupo=NULL,pane='limites',peso=NULL) {
   if (!nrow(d)) return(m)
@@ -375,7 +464,7 @@ base_mapa <- function(opacidad_base=1,selector_base=FALSE,zoom_fino=FALSE) {
                  c('instalaciones',440))) {
     m <- addMapPane(m,p[1],zIndex=as.numeric(p[2]))
   }
-  m
+  dependencia_cartografica(m)
 }
 agregar_contexto <- function(m,departamentos=TRUE,peso_vmos=3.4,salud=FALSE) {
   m <- linea(m,capas$departamental,'departamental','Límites departamentales')
@@ -396,6 +485,9 @@ agregar_contexto <- function(m,departamentos=TRUE,peso_vmos=3.4,salud=FALSE) {
 finalizar_mapa <- function(m,tema,grupos,referencias,activos=grupos,
                            tramas_mapa=list(),consulta=list(),estilos_mapa=estilos) {
   force(activos)
+  nueva<-agregar_infraestructura(m,tema);m<-nueva$m
+  grupos<-c(grupos,nueva$grupos);referencias<-append(referencias,nueva$referencias)
+  activos<-c(activos,nueva$activos)
   if(tema %in% c('electricidad','gobiernos','sanitarias','asentamientos','poblacion','nbi','produccion','sintesis')) {
     m<-agregar_vial(m)
     grupos<-c(grupos,'Rutas nacionales','Rutas provinciales')
@@ -556,13 +648,12 @@ mapa_ambiente <- function() {
     options=pathOptions(pane='productivas',interactive=FALSE))
   for (k in c('espejos','embalses')) {
     d <- capas[[k]]
-    grupo <- if(k=='espejos') 'Espejos perennes' else 'Embalses'
+    grupo <- if(k=='espejos') 'Superficies de agua perennes' else 'Embalses'
     color <- if(k=='espejos') '#A5D8EA' else '#5AA7C6'
-    nombre <- campo(d,'fna',if(k=='espejos')'Espejo de agua perenne' else 'Embalse')
-    m <- addPolygons(m,data=d,stroke=FALSE,fillColor=color,fillOpacity=1,
-      group=grupo,label=nombre,popup=paste0('<div class="popup-rn"><strong>',
-        esc(nombre),'</strong><br>',grupo,'</div>'),
-      options=pathOptions(pane='agua'))
+    nombre <- campo(d,'fna',if(k=='espejos')'Superficie de agua perenne' else 'Embalse')
+    m <- addPolygons(m,data=d,stroke=TRUE,color='#4096BC',weight=.45,fillColor=color,fillOpacity=1,
+      group=grupo,label=nombre,
+      options=pathOptions(pane='agua',smoothFactor=.15,lineJoin='round'))
     areas <- as.numeric(st_area(st_transform(d,6933)))/1e6
     grandes <- which(areas>=30 & nzchar(campo(d,'nam','')))
     grandes <- grandes[order(areas[grandes],decreasing=TRUE)]
@@ -573,7 +664,7 @@ mapa_ambiente <- function() {
   m <- addPolylines(m,data=capas$corrientes,color=estilos$corrientes$color,
     weight=estilos$corrientes$weight,opacity=1,group='Corrientes perennes',
     label=campo(capas$corrientes,'fna','Corriente de agua perenne'),
-    options=pathOptions(pane='agua'))
+    options=pathOptions(pane='agua',smoothFactor=.15,lineJoin='round'))
   m <- agregar_contexto(m,FALSE)
   m <- rotulos_areales(m,capas$productivas,toupper(prod_nombre),
                        'Regiones productivas','rotulo-region')
@@ -588,14 +679,14 @@ mapa_ambiente <- function() {
     group='Regiones productivas',section='Regiones productivas · trama')))
   refs <- append(refs,list(
     ref_linea('corrientes','Corrientes perennes','Hidrografía'),
-    list(kind='fill',label='Espejo de agua perenne',color='#A5D8EA',
-         group='Espejos perennes',section='Hidrografía'),
+    list(kind='fill',label='Superficie de agua perenne',color='#A5D8EA',
+         group='Superficies de agua perennes',section='Hidrografía'),
     list(kind='fill',label='Embalse',color='#5AA7C6',
          group='Embalses',section='Hidrografía'),
     ref_linea('vmos','VMOS','Oleoducto')))
   refs <- append(refs,referencias_limites())
   grupos <- c('Ecorregiones','Regiones productivas','Corrientes perennes',
-              'Espejos perennes','Embalses','VMOS','Límites departamentales')
+              'Superficies de agua perennes','Embalses','VMOS','Límites departamentales')
   tramas_mapa <- lapply(seq_along(prod_ids),function(i) list(
     id=prod_ids[i],key=prod_clave[i]))
   consulta <- c(
@@ -726,11 +817,11 @@ mapa_asentamientos <- function() {
     options=pathOptions(pane='entorno',interactive=FALSE))
   # Hidrografía contextual, con consultas y rótulos regulados por zoom.
   for(k in c('espejos','embalses')) {
-    d<-capas[[k]];grupo<-if(k=='espejos')'Espejos perennes' else 'Embalses'
+    d<-capas[[k]];grupo<-if(k=='espejos')'Superficies de agua perennes' else 'Embalses'
     color<-if(k=='espejos')'#A5D8EA' else '#5AA7C6'
     nombres<-campo(d,'fna',grupo)
-    m<-addPolygons(m,data=d,stroke=FALSE,fillColor=color,fillOpacity=.8,
-      group=grupo,label=nombres,options=pathOptions(pane='agua'))
+    m<-addPolygons(m,data=d,stroke=TRUE,color='#4096BC',weight=.45,fillColor=color,fillOpacity=.8,
+      group=grupo,label=nombres,options=pathOptions(pane='agua',smoothFactor=.15,lineJoin='round'))
     areas<-as.numeric(st_area(st_transform(d,6933)))/1e6
     j<-which(areas>=20 & nzchar(campo(d,'nam','')))
     j<-j[order(areas[j],decreasing=TRUE)];j<-j[!duplicated(tolower(nombres[j]))]
@@ -742,7 +833,7 @@ mapa_asentamientos <- function() {
     d<-capas$corrientes[nombres_cursos==nombre,]
     m<-addPolylines(m,data=st_sf(geometry=st_combine(st_geometry(d))),
       color=estilos$corrientes$color,weight=.9,opacity=.85,group='Corrientes perennes',
-      label=nombre,options=pathOptions(pane='agua'))
+      label=nombre,options=pathOptions(pane='agua',smoothFactor=.15,lineJoin='round'))
     if(nombre %in% c('Río Negro','Río Colorado','Río Limay')) {
       g<-suppressWarnings(st_cast(st_geometry(st_transform(d,crs_analisis)),'LINESTRING'))
       g<-g[which.max(as.numeric(st_length(g)))];centro<-st_transform(st_line_sample(g,sample=.5),4326)
@@ -790,14 +881,14 @@ mapa_asentamientos <- function() {
     ref_linea('vmos','VMOS','Oleoducto')))
   refs <- append(refs,referencias_limites())
   refs<-append(refs,list(ref_linea('corrientes','Corrientes perennes','Hidrografía'),
-    list(kind='fill',label='Espejo de agua perenne',color='#A5D8EA',opacity=.8,group='Espejos perennes',section='Hidrografía'),
+    list(kind='fill',label='Superficie de agua perenne',color='#A5D8EA',opacity=.8,group='Superficies de agua perennes',section='Hidrografía'),
     list(kind='fill',label='Embalse',color='#5AA7C6',opacity=.8,group='Embalses',section='Hidrografía')))
   grupos <- c('Hasta 20 km','Más de 20 km','Entorno de 20 km','VMOS','Límites departamentales',
-              'Corrientes perennes','Espejos perennes','Embalses')
-  m<-hideGroup(m,c('Corrientes perennes','Espejos perennes','Embalses'))
+              'Corrientes perennes','Superficies de agua perennes','Embalses')
+  m<-hideGroup(m,c('Corrientes perennes','Superficies de agua perennes','Embalses'))
   estilos_as <- estilos;estilos_as$vmos$weight <- 4.2
   finalizar_mapa(m,'asentamientos',grupos,refs,
-    activos=setdiff(grupos,c('Límites departamentales','Corrientes perennes','Espejos perennes','Embalses')),estilos_mapa=estilos_as)
+    activos=setdiff(grupos,c('Límites departamentales','Corrientes perennes','Superficies de agua perennes','Embalses')),estilos_mapa=estilos_as)
 }
 
 
@@ -816,14 +907,14 @@ contexto_hidrico<-function(m){
  for(n in intersect(c('Río Negro','Río Colorado','Río Limay'),unique(nombres))){
   d<-capas$corrientes[nombres==n,]
   m<-addPolylines(m,data=st_sf(geometry=st_combine(st_geometry(d))),color='#267FA7',
-    weight=1,opacity=.9,group='Ríos principales',popup=n,options=pathOptions(pane='agua'))
+    weight=1,opacity=.9,group='Ríos principales',label=n,options=pathOptions(pane='agua',smoothFactor=.15,lineJoin='round'))
  }
  for(k in c('espejos','embalses')){
   d<-capas[[k]];area<-as.numeric(st_area(st_transform(d,6933)))/1e6
   d<-d[area>=5,]
-  m<-addPolygons(m,data=d,stroke=FALSE,fillColor='#88C7DF',fillOpacity=.65,
+  m<-addPolygons(m,data=d,stroke=TRUE,color='#4096BC',weight=.45,fillColor='#88C7DF',fillOpacity=.65,
     group='Cuerpos de agua principales',label=campo(d,'fna','Cuerpo de agua'),
-    options=pathOptions(pane='agua'))
+    options=pathOptions(pane='agua',smoothFactor=.15,lineJoin='round'))
  }
  hideGroup(m,c('Ríos principales','Cuerpos de agua principales'))
 }
@@ -958,6 +1049,7 @@ mapa_presentacion <- function() {
         className=if(rn)'rotulo-bi-rn' else 'rotulo-bi-provincia'))
   }
   m<-setView(m,-60,-56,zoom=2.7)
+  m<-dependencia_cartografica(m)
   onRender(m,JS_INTRO,data=list(logos=logo_html,signos=signos,
     clases=sort(unique(bi$limites$simbolo)),provincias=st_drop_geometry(bi$provincias),
     reticula=jsonlite::fromJSON('data/bicontinental_reticula.geojson',simplifyVector=FALSE),
@@ -977,6 +1069,7 @@ function(el, x, datos) {
   }
   function shape(id) { return map.layerManager.getLayer('shape', id); }
   var activos = new Set(array(datos.activos));
+  var rotulosAdaptados=window.CartografiaAreales.crear(map,el,datos.mascarasRotulos);
   var listoParaAjustar = false, encuadreInicial = false;
   var controles = [];
   function control(clase, posicion, html) {
@@ -1081,7 +1174,9 @@ function(el, x, datos) {
   }
   function muestra(r, i) {
     var dibujo = '';
-    if (r.kind === 'asentamiento') {
+    if (r.kind === 'infra-svg') {
+      dibujo = r.svg;
+    } else if (r.kind === 'asentamiento') {
       dibujo = '<g transform="translate(19 0)">'+r.svg+'</g>';
     } else if (r.kind === 'vial-id') {
       dibujo = '<g transform="translate(15 -2) scale(.85)">'+r.svg+'</g>';
@@ -1119,7 +1214,7 @@ function(el, x, datos) {
       var partes = [];
       if (activos.has('Ecorregiones')) partes.push('Ecorregiones');
       if (activos.has('Regiones productivas')) partes.push('regiones productivas');
-      if (['Corrientes perennes','Espejos perennes','Embalses'].some(function(g){return activos.has(g);})) partes.push('hidrografía');
+      if (['Corrientes perennes','Superficies de agua perennes','Embalses'].some(function(g){return activos.has(g);})) partes.push('hidrografía');
       t = partes.length ? partes.join(', ')+' de Río Negro' : 'Contexto territorial de Río Negro';
       t = t.charAt(0).toUpperCase()+t.slice(1);
     }
@@ -1138,9 +1233,6 @@ function(el, x, datos) {
   // Dos encuadres complementarios conservan el tamaño del visor.
   if(['asentamientos','sintesis','poblacion','nbi','produccion'].indexOf(datos.tema)>=0)map.getPane('oleoducto').style.zIndex='450';
   if(datos.tema==='asentamientos'){
-    var vistas=control('vistas-mapa','topleft','<button type="button" data-contexto>Contexto provincial</button><button type="button" data-corredor>Cercanía al VMOS</button>');
-    vistas.div.querySelector('[data-contexto]').onclick=function(){map.layerManager.getLayerGroup('Más de 20 km').addTo(map);map.layerManager.getLayerGroup('Rutas nacionales').addTo(map);map.layerManager.getLayerGroup('Rutas provinciales').addTo(map);map.fitBounds([[-42.15,-72.12],[-37.15,-62.6]],{paddingTopLeft:[55,30],paddingBottomRight:[165,30],animate:false});};
-    vistas.div.querySelector('[data-corredor]').onclick=function(){map.removeLayer(map.layerManager.getLayerGroup('Más de 20 km'));var b=datos.limitesEntorno;map.fitBounds([[b.ymin,b.xmin],[b.ymax,b.xmax]],{paddingTopLeft:[55,30],paddingBottomRight:[175,30],animate:false});};
     function adaptarBase(nombre){
       var gris=nombre==='ArgenMap gris claro';
       array(datos.iconosAsentamientos).forEach(function(o){
@@ -1308,6 +1400,7 @@ function(el, x, datos) {
   }
   function ajustarRotulos(){
     var z=map.getZoom();
+    el.querySelectorAll('.estacion-ferroviaria').forEach(function(n){n.style.visibility=z>=8?'visible':'hidden';});
     el.querySelectorAll('.rotulo-eco').forEach(function(n){n.style.visibility=z>=8?'visible':'hidden';});
     el.querySelectorAll('.rotulo-agua').forEach(function(n){n.style.visibility=z>=7?'visible':'hidden';});
     el.querySelectorAll('.rotulo-gobierno').forEach(function(n){
@@ -1326,6 +1419,7 @@ function(el, x, datos) {
       if(ocupadosDP.some(function(o){return !(r.right+3<o.left||r.left-3>o.right||r.bottom+3<o.top||r.top-3>o.bottom);}))return;
       n.style.visibility='visible';ocupadosDP.push(r);
     });
+    rotulosAdaptados.actualizar(activos);
   }
   L.marker([-39.6,-72.7],{
     icon:L.divIcon({className:'rotulo-pais',
@@ -1402,6 +1496,7 @@ function(el,x,datos){
  control('logos','bottomright',datos.logos||'');
  var botones=control('vistas-mapa','topleft','<button type="button" data-vista="nacional">Vista bicontinental</button><button type="button" data-vista="provincial">Acercar a Río Negro</button>');
  var activos=new Set(['Espacios marítimos','Retícula geográfica']);
+ var rotulosAdaptados=window.CartografiaAreales.crear(map,el,datos.mascarasRotulos,{nacional:true});
  function referencia(){
   var h='<h4>REFERENCIAS</h4>';
   h+='<div class="ref-subtitulo">Límites y costa · base IGN</div>';
@@ -1504,7 +1599,7 @@ function(el,x,datos){
    var text=document.createElementNS(ns,'text'),tp=document.createElementNS(ns,'textPath');text.setAttribute('class','rotulo-bi-curvo');text.setAttribute('text-anchor','middle');tp.setAttribute('href','#'+o.id);tp.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href','#'+o.id);tp.setAttribute('startOffset','50%');tp.textContent=o.nombre;text.appendChild(tp);p.parentNode.appendChild(text);textos.push(text);
    text.style.display=map.getZoom()<nivelNacional+1.5?'':'none';
   });
-  refs.div.style.maxHeight=Math.max(100,t.y-refs.div.getBoundingClientRect().top+el.getBoundingClientRect().top-105)+'px';reticula();
+  refs.div.style.maxHeight=Math.max(100,t.y-refs.div.getBoundingClientRect().top+el.getBoundingClientRect().top-105)+'px';reticula();rotulosAdaptados.actualizar(activos,nivelNacional);
  }
  function visible(){if(el.clientWidth>0&&el.clientHeight>0){var d=el.clientWidth+'x'+el.clientHeight;map.invalidateSize({pan:false});if(!inicial||dimensiones!==d){inicial=true;var e=vistaActual||ext,z=encuadrar(e);if(e===ext)nivelNacional=z;dimensiones=d;}actualizar();}}
  map.on('moveend zoomend resize',actualizar);map.on('overlayadd',e=>{activos.add(e.name);referencia();actualizar();});map.on('overlayremove',e=>{activos.delete(e.name);referencia();actualizar();});
@@ -1517,14 +1612,21 @@ function(el,x,datos){
 ```
 
 ```{css, echo=FALSE}
+
+.rotulos-provinciales-ajustados .rotulo-provincia,.rotulos-provinciales-ajustados .rotulo-departamento,
+.rotulos-nacionales-ajustados .rotulo-bi-rn,.rotulos-nacionales-ajustados .rotulo-bi-provincia{display:none!important}
+.rotulo-areal-adaptado{background:transparent!important;border:0!important;pointer-events:none!important}
+.texto-areal{position:absolute;display:block;transform:translate(-50%,-50%);white-space:nowrap;text-align:center;font-family:Arial,sans-serif;color:#37504A;text-shadow:0 0 3px #fff,0 0 2px #fff;pointer-events:none}
+.areal-departamento{color:#4B504D;text-shadow:0 0 3px #fff,0 0 2px #fff}
+.rotulos-nacionales-ajustados .texto-areal{color:#315348;text-shadow:none}
+.rotulos-nacionales-ajustados .areal-rn-nacional{color:white;font-weight:800!important}
 .value-box .icon .fa-oveja,.value-box .icon .fa-vaca{color:#736447;display:inline-block;width:92px;height:82px;background:currentColor;-webkit-mask:center/contain no-repeat;mask:center/contain no-repeat}
 .value-box .icon .fa-oveja{-webkit-mask-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgOTAiPjxnIGZpbGw9ImJsYWNrIj48cGF0aCBkPSJNMjIgNDVRNyA0NSA3IDM2UTcgMjkgMTcgMzBMMjQgMzVaIi8+PHJlY3QgeD0iMjciIHk9IjU4IiB3aWR0aD0iOSIgaGVpZ2h0PSIyNyIgcng9IjIiLz48cmVjdCB4PSI2NyIgeT0iNTgiIHdpZHRoPSI5IiBoZWlnaHQ9IjI3IiByeD0iMiIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzYiIHI9IjE3Ii8+PGNpcmNsZSBjeD0iNDQiIGN5PSIyNSIgcj0iMTciLz48Y2lyY2xlIGN4PSI2MyIgY3k9IjI4IiByPSIxOSIvPjxjaXJjbGUgY3g9Ijc2IiBjeT0iNDMiIHI9IjIwIi8+PGNpcmNsZSBjeD0iNjAiIGN5PSI1NyIgcj0iMjAiLz48Y2lyY2xlIGN4PSIzNSIgY3k9IjU0IiByPSIxOSIvPjxwYXRoIGQ9Ik04MSAzMlE4NCAxNyA5MiAyNEwxMDEgMzJRMTE0IDMzIDExMyA0M1ExMTAgNTkgOTcgNjBRODggNTkgODUgNDlaIi8+PGVsbGlwc2UgY3g9IjgyIiBjeT0iMzQiIHJ4PSIxMCIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0yNSA4MiAzNCkiLz48L2c+PC9zdmc+');mask-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgOTAiPjxnIGZpbGw9ImJsYWNrIj48cGF0aCBkPSJNMjIgNDVRNyA0NSA3IDM2UTcgMjkgMTcgMzBMMjQgMzVaIi8+PHJlY3QgeD0iMjciIHk9IjU4IiB3aWR0aD0iOSIgaGVpZ2h0PSIyNyIgcng9IjIiLz48cmVjdCB4PSI2NyIgeT0iNTgiIHdpZHRoPSI5IiBoZWlnaHQ9IjI3IiByeD0iMiIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzYiIHI9IjE3Ii8+PGNpcmNsZSBjeD0iNDQiIGN5PSIyNSIgcj0iMTciLz48Y2lyY2xlIGN4PSI2MyIgY3k9IjI4IiByPSIxOSIvPjxjaXJjbGUgY3g9Ijc2IiBjeT0iNDMiIHI9IjIwIi8+PGNpcmNsZSBjeD0iNjAiIGN5PSI1NyIgcj0iMjAiLz48Y2lyY2xlIGN4PSIzNSIgY3k9IjU0IiByPSIxOSIvPjxwYXRoIGQ9Ik04MSAzMlE4NCAxNyA5MiAyNEwxMDEgMzJRMTE0IDMzIDExMyA0M1ExMTAgNTkgOTcgNjBRODggNTkgODUgNDlaIi8+PGVsbGlwc2UgY3g9IjgyIiBjeT0iMzQiIHJ4PSIxMCIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0yNSA4MiAzNCkiLz48L2c+PC9zdmc+')}
 .value-box .icon .fa-vaca{-webkit-mask-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgOTAiPjxnIGZpbGw9ImJsYWNrIj48cGF0aCBkPSJNMTQgMzJRMjUgMjEgNDMgMjZMNzQgMjhRODMgMjMgODggMjhMOTkgMzlMMTAzIDQ5UTEwMCA1NyA4OCA1NEw4MiA0Nkw3OCA2MEw3NSA4NEg2Nkw2NSA1OUgzNUwzMSA4NEgyMkwyMyA1N1ExMyA1MCAxNCAzMloiLz48cGF0aCBkPSJNODYgMzJMODQgMTZROTIgMjEgOTQgMzFMMTAyIDI0TDEwMyAzOFoiLz48ZWxsaXBzZSBjeD0iOTciIGN5PSIzNCIgcng9IjEzIiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMjIgOTcgMzQpIi8+PHBhdGggZD0iTTE3IDMzUTYgMzIgNiA1MkwzIDY1TDEwIDY2TDEzIDU1UTEyIDQxIDIwIDQyWiIvPjwvZz48L3N2Zz4=');mask-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgOTAiPjxnIGZpbGw9ImJsYWNrIj48cGF0aCBkPSJNMTQgMzJRMjUgMjEgNDMgMjZMNzQgMjhRODMgMjMgODggMjhMOTkgMzlMMTAzIDQ5UTEwMCA1NyA4OCA1NEw4MiA0Nkw3OCA2MEw3NSA4NEg2Nkw2NSA1OUgzNUwzMSA4NEgyMkwyMyA1N1ExMyA1MCAxNCAzMloiLz48cGF0aCBkPSJNODYgMzJMODQgMTZROTIgMjEgOTQgMzFMMTAyIDI0TDEwMyAzOFoiLz48ZWxsaXBzZSBjeD0iOTciIGN5PSIzNCIgcng9IjEzIiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMjIgOTcgMzQpIi8+PHBhdGggZD0iTTE3IDMzUTYgMzIgNiA1MkwzIDY1TDEwIDY2TDEzIDU1UTEyIDQxIDIwIDQyWiIvPjwvZz48L3N2Zz4=')}
 
 .intro-secciones{font-size:14px;font-weight:700;color:#215C53;margin:18px 0 8px}
-.credito-institucional{position:relative;container-type:inline-size;margin:15px auto 0;max-width:560px;width:100%;line-height:0;background:#e5e6e7}
+.credito-institucional{position:relative;container-type:inline-size;margin:15px auto 18px;max-width:560px;width:100%;line-height:0;background:#e5e6e7}
 .grafica-institucional{display:block;width:100%;height:auto}
-.docente-corregida{position:absolute;left:17.4%;top:81.7%;width:80.9%;height:5.6%;display:flex;align-items:center;background:#e5e6e7;color:#222;font:400 2.53cqw/1.1 Arial,sans-serif;white-space:nowrap}
 .tema-poblacion .rotulo-departamento{margin-top:-22px!important}
 .mini-torta{background:transparent;border:0;filter:drop-shadow(0 1px 2px #18322d66)}.mini-torta svg{display:block;width:30px;height:30px}
 .selector-atlas{background:#fffffff5;border:1px solid #d8e1d8;border-radius:7px;padding:8px 10px;width:240px;font-size:11px;line-height:1.35}
@@ -1541,6 +1643,8 @@ body{background:var(--papel);color:var(--tinta);font-family:'Segoe UI',Arial,san
 .chart-title{display:none!important}.chart-stage{padding:0!important}
 .leaflet-container{background:#e6eee6;font-family:'Segoe UI',Arial,sans-serif}
 .leaflet-top{top:25px}.leaflet-bottom{bottom:25px}.leaflet-left{left:25px}.leaflet-right{right:25px}
+.tema-asentamientos .leaflet-control-layers{max-height:none!important;overflow:visible!important}
+.tema-asentamientos .leaflet-control-layers-list{max-height:39vh;overflow-y:auto!important;overflow-x:hidden}
 .leaflet-control-layers{border:1px solid #d8e1d8!important;border-radius:8px!important;padding:8px 10px;background:#fffffff5;box-shadow:0 2px 8px #18322d12!important;font-size:11px;color:#29443e;max-height:39vh;overflow-y:auto}
 .leaflet-control-layers label{margin:3px 0}.leaflet-control-layers input{accent-color:#236c64}
 .titulo-mapa{width:min(440px,42vw);padding:10px 14px;background:#fffffff5;border:1px solid var(--borde);border-radius:8px;color:#213e3c;font-size:15px;line-height:1.35;font-weight:650;box-shadow:0 2px 8px #18322d10}
@@ -1561,7 +1665,7 @@ body{background:var(--papel);color:var(--tinta);font-family:'Segoe UI',Arial,san
 .norte{background:#fffffff0;border:1px solid var(--borde);border-radius:7px;padding:3px 6px;text-align:center;color:#24423d;box-shadow:0 2px 8px #18322d10}
 .escala-numerica{background:#ffffffe8;padding:2px 5px;border-radius:3px;font-size:10px;color:#36463d}
 .marco-coordenadas{position:absolute;inset:0;z-index:600;pointer-events:none}.banda-coordenada{position:absolute;background:#fafcf8ed}.banda-coordenada.horizontal{left:0;right:0;height:21px}.banda-coordenada.vertical{top:21px;bottom:21px;width:24px}.coordenada{position:absolute;color:#4d6055;font-size:9px;font-variant-numeric:tabular-nums;white-space:nowrap}.coordenada.lon{transform:translateX(-50%)}.coordenada.lat{writing-mode:vertical-rl;transform:translateY(-50%)}
-.logos{display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px solid var(--borde);border-radius:7px;background:white}.logo-recorte{width:44px;height:44px;background-repeat:no-repeat;background-size:289px 166px}.logo-uns{background-position:-5px -39px}.logo-dgyt{background-position:-5px -86px}.logo-cdc{background-position:-240px -39px}
+.logos{display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px solid var(--borde);border-radius:7px;background:white}.logo-institucional{display:block;width:46px;height:46px;object-fit:contain;object-position:center;background:white}
 .notas{height:100%;overflow-y:auto;padding:10px 15px;box-sizing:border-box;line-height:1.45;color:#57695c;font-size:11px}.notas h4{margin:0 0 5px;font-size:12px;font-weight:750;color:#31564d}.notas p{margin:0 0 4px}.notas ol{padding-left:22px;margin:3px 0}.notas li{margin:2px 0}.notas a{color:#276b69;text-decoration:underline}.notas .aclaracion{font-size:10px;color:#6a796d;margin-top:6px}
 .value-box{border-radius:10px}.value-box .value{font-size:30px!important;font-weight:750!important}.value-box .caption{font-size:11px!important;line-height:1.3!important}.value-box .icon{opacity:.28}
 .popup-rn{font-size:12px;line-height:1.5}.popup-rn strong{color:#254d48}.popup-rn small{color:#64786a}
@@ -1606,7 +1710,7 @@ body{background:var(--papel);color:var(--tinta);font-family:'Segoe UI',Arial,san
 .intro-firma{font-size:11px;color:#728173;line-height:1.65;margin-top:16px}
 .reserva{height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#EFF5EB,white);padding:35px;box-sizing:border-box}.reserva>div{max-width:680px}.reserva .numero{color:#96AC98;font-size:12px;font-weight:700;letter-spacing:3px}.reserva h2{font-family:Georgia,serif;color:#22594F;font-size:36px;margin:15px 0}.reserva p{font-size:15px;line-height:1.8;color:#617467}.reserva .estado{display:inline-block;background:#EDF2E9;border-radius:4px;padding:6px 10px;font-size:11px;margin-top:15px}
 .tema-presentacion{background:#D6ECF4}.tema-presentacion .titulo-mapa{width:222px;font-size:14px}.tema-presentacion .titulo-mapa small{display:block;font-size:10px;font-weight:400;color:#607870;padding-top:3px}
-.referencias-bi{width:222px;font-size:9.5px}.referencias-bi .ref-item{margin:4px 0}.referencias-bi .ref-item svg{flex-basis:46px;width:46px}.tema-presentacion .logos .logo-recorte{width:34px;height:34px;background-size:223px 128px}.tema-presentacion .logo-uns{background-position:-4px -30px}.tema-presentacion .logo-dgyt{background-position:-4px -66px}.tema-presentacion .logo-cdc{background-position:-185px -30px}
+.referencias-bi{width:222px;font-size:9.5px}.referencias-bi .ref-item{margin:4px 0}.referencias-bi .ref-item svg{flex-basis:46px;width:46px}.tema-presentacion .logo-institucional{width:36px;height:36px}
 .vistas-mapa{display:flex;flex-direction:column;gap:5px;padding:7px;background:#FFFFFFF2;border-radius:7px;border:1px solid var(--borde);font-size:10px}.vistas-mapa button{border:1px solid #C7D8CD;background:#F5F8F1;border-radius:4px;padding:5px 8px;color:#245B51;text-align:left}.vistas-mapa button:hover,.vistas-mapa button:focus{background:#DAEAE0;outline:1px solid #528B7B}
 .rotulo-bi-rn,.rotulo-bi-provincia{background:none!important;border:0!important;box-shadow:none!important;pointer-events:none!important;text-shadow:none!important;text-align:center;font-family:Arial,sans-serif;letter-spacing:.6px;font-size:9px;line-height:1.2;color:#315348}.rotulo-bi-rn{color:white;font-size:9px;font-weight:800;letter-spacing:1.3px}.rotulo-bi-rn:before,.rotulo-bi-provincia:before{display:none!important}
 .rotulo-bi-curvo{font:11px Arial,sans-serif;fill:#397B99;letter-spacing:1.8px;pointer-events:none}.rotulo-bi-isla{font:8px/1.2 Arial,sans-serif;color:#345565;text-align:center;pointer-events:none}.rotulo-bi-pais{font:9px/1.3 Arial,sans-serif;letter-spacing:.5px;color:#5C6C65;text-align:center;pointer-events:none}
@@ -1636,13 +1740,14 @@ mapa_presentacion()
 <div class="intro-antetitulo">Atlas de cartografía temática · 2026</div>
 <h2>Río Negro,<br>un territorio en relación</h2>
 <div class="intro-subtitulo">Ambiente, población, actividades e infraestructuras ante el recorrido del VMOS.</div>
+<figure class="credito-institucional"><img class="grafica-institucional" src="assets/logo_presentacion_2026.svg" alt="Laboratorio de Cartografía Digital y Centro de Documentación Cartográfica. Departamento de Geografía y Turismo, Universidad Nacional del Sur. Cartografía elaborada por Marcelo Haberkorn, 2026."></figure>
 <p>Entre los Andes y el océano Atlántico, Río Negro reúne paisajes, asentamientos y actividades diversas. Ubicar la provincia en la Argentina bicontinental es el punto de partida para explorar esas diferencias y sus relaciones territoriales.</p>
 <p>Este tablero propone una caracterización de la provincia y una lectura de su vinculación espacial con el <strong>Oleoducto Vaca Muerta Oil Sur (VMOS)</strong>. Las distintas pestañas permiten consultar las capas, reconocer superposiciones y comparar el contexto provincial con los territorios atravesados o próximos a la traza.</p>
 <h3 class="intro-secciones">Secciones de análisis</h3>
 <div class="intro-temas"><span>Ambiente</span><span>Sociedad y producción</span><span>Infraestructuras y territorios</span></div>
 <a class="intro-boton" href="#ecorregiones" onclick="jQuery('.navbar a').filter(function(){return this.hash === '#ecorregiones';}).tab('show');return false;">Comenzar por el ambiente →</a>
 <div class="intro-firma"><strong>Elaborado por Marcelo Haberkorn</strong><br>Cartografía Aplicada - Año 2026</div>
-<figure class="credito-institucional"><img class="grafica-institucional" src="assets/logo_carto_2026.png" alt="Laboratorio de Cartografía Digital y Centro de Documentación Cartográfica. Departamento de Geografía y Turismo, Universidad Nacional del Sur. Cartografía elaborada por Marcelo Haberkorn, 2026."><span class="docente-corregida">Lic. Andrea Marcela Silva.</span></figure>
+
 </div>
 
 Row {data-height=165}
@@ -1716,7 +1821,8 @@ valueBox(numero(agua_km2),caption='km² de espejos y embalses · aprox.',
 <p>Elaborado por Marcelo Haberkorn en el año 2026 sobre la base de ArgenMap y datos obtenidos de:</p>
 <h5>Fuentes</h5>
 <ol class="fuentes">
-<li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank" rel="noopener noreferrer">Capas SIG</a>; simbología vial: <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank" rel="noopener noreferrer">Manual de signos cartográficos, pp. 125–127</a>).</li>
+<li>Vialidad Rionegrina: <a href="https://vialidad.rionegro.gov.ar/servicio/213/balsas?n=ODAw" target="_blank" rel="noopener noreferrer">Balsas</a>. Descripción de Sauce Blanco y Villa Llanquín.</li>
+<li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank" rel="noopener noreferrer">Capas SIG</a>; <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank" rel="noopener noreferrer">Manual de signos cartográficos</a>).</li>
 <li>Burkart R., Bárbaro N., Sánchez R. y Gómez D. (1999). <em>Ecorregiones de la Argentina.</em> Secretaría de Recursos Naturales y Desarrollo Sustentable. Administración de Parques Nacionales. (<a href="https://sib.gob.ar/archivos/Eco_regiones_de_la_Argentina_1999.pdf" target="_blank" rel="noopener noreferrer">Documento</a>).</li>
 <li>Estación Experimental Agropecuaria (EEA) Bariloche. Instituto Nacional de Tecnología Agropecuaria (INTA).</li>
 </ol>
@@ -1820,7 +1926,18 @@ valueBox(numero(sum(dp$bovinos_21)),caption='cabezas bovinas - datos 2021',icon=
 
 ### Notas {data-width=1000}
 
-<div class="notas"><h4>Notas</h4><p>Elaborado por Marcelo Haberkorn en el año 2026 sobre la base de ArgenMap y datos obtenidos de:</p><h5>Fuentes</h5><ol class="fuentes"><li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank">Capas SIG</a>; <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank">Manual de signos cartográficos</a>).</li><li>Datos productivos aportados por SENASA. Contraste de alcance y períodos: <a href="https://www.argentina.gob.ar/sites/default/files/2021/03/anuario_estadistico_crpn_senasa_2022.pdf" target="_blank">Anuario estadístico SENASA 2022</a> y <a href="https://www.argentina.gob.ar/sites/default/files/39_2022_rio_negro.pdf" target="_blank">Informe productivo provincial, mayo de 2022</a>.</li><li>Ministerio de Economía, <a href="https://www.argentina.gob.ar/sites/default/files/39_2022_rio_negro.pdf#page=17" target="_blank">Informe productivo provincial: Río Negro, mayo de 2022, página 17, “Peras y manzanas. Configuración territorial”</a>, elaborado con base en el CNA 2018 y SENASA. El mapa de 2018 representa superficie cultivada por departamento en hectáreas; sus cortes superiores de 3.730 y 24.504 coinciden con la capa utilizada.</li></ol><h5>Aclaraciones</h5><ol class="aclaraciones"><li>La variable se categoriza mediante cortes naturales de Jenks, que minimizan la dispersión dentro de las clases y buscan separar grupos de valores. Se emplean hasta cinco clases para los 13 departamentos, con cortes propios de cada variable. Ayuda a reconocer contrastes en estos datos; los límites de clase no son umbrales de riesgo ni permiten comparar directamente colores entre variables.</li><li>Las existencias ovinas y bovinas son cabezas registradas, no producción anual de carne o lana.</li><li>Sistema de Referencia de Coordenadas: WGS 84.</li></ol></div>
+<div class="notas"><h4>Notas</h4><p>Elaborado por Marcelo Haberkorn en el año 2026 sobre la base de ArgenMap y datos obtenidos de:</p><h5>Fuentes</h5><ol class="fuentes">
+<li>Tren Patagónico: <a href="https://trenpatagonicosa.com.ar/las-estaciones/" target="_blank" rel="noopener noreferrer">Estaciones y boleterías</a>. Contraste de Viedma, San Antonio Oeste, Ingeniero Jacobacci y San Carlos de Bariloche.</li>
+<li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank">Capas SIG</a>; <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank">Manual de signos cartográficos</a>).</li>
+<li>Datos productivos aportados por SENASA. Contraste de alcance y períodos: <a href="https://www.argentina.gob.ar/sites/default/files/2021/03/anuario_estadistico_crpn_senasa_2022.pdf" target="_blank">Anuario estadístico SENASA 2022</a> y <a href="https://www.argentina.gob.ar/sites/default/files/39_2022_rio_negro.pdf" target="_blank">Informe productivo provincial, mayo de 2022</a>.</li>
+<li>Ministerio de Economía, <a href="https://www.argentina.gob.ar/sites/default/files/39_2022_rio_negro.pdf#page=17" target="_blank">Informe productivo provincial: Río Negro, mayo de 2022, página 17, “Peras y manzanas. Configuración territorial”</a>, elaborado con base en el CNA 2018 y SENASA. El mapa de 2018 representa superficie cultivada por departamento en hectáreas; sus cortes superiores de 3.730 y 24.504 coinciden con la capa utilizada.</li>
+</ol><h5>Aclaraciones</h5><ol class="aclaraciones">
+<li>Se contrastaron cuatro estaciones del IGN con los puntos publicados por Tren Patagónico: Viedma, San Antonio Oeste, Ingeniero Jacobacci y San Carlos de Bariloche. Las separaciones son de aproximadamente 10 a 23 m; se conservan las posiciones IGN y se añaden la dirección y el enlace del operador a sus consultas. Las oficinas de venta del centro de Bariloche y de CABA no se incorporan como estaciones.</li>
+<li>El ferrocarril se incorpora como referencia de conectividad: visible al inicio en Asentamientos y opcional en Producción y Síntesis. Los diques y muros son capas opcionales en Ambiente, Infraestructura eléctrica, Producción, Asentamientos y Síntesis.</li>
+<li>La variable se categoriza mediante cortes naturales de Jenks, que minimizan la dispersión dentro de las clases y buscan separar grupos de valores. Se emplean hasta cinco clases para los 13 departamentos, con cortes propios de cada variable. Ayuda a reconocer contrastes en estos datos; los límites de clase no son umbrales de riesgo ni permiten comparar directamente colores entre variables.</li>
+<li>Las existencias ovinas y bovinas son cabezas registradas, no producción anual de carne o lana.</li>
+<li>Sistema de Referencia de Coordenadas: WGS 84.</li>
+</ol></div>
 
 
 Infraestructura eléctrica {#electricidad data-navmenu="Infraestructuras y territorios"}
@@ -1859,11 +1976,12 @@ valueBox(nrow(capas$estaciones),caption='Estaciones transformadoras',
 <p>Elaborado por Marcelo Haberkorn en el año 2026 sobre la base de ArgenMap y datos obtenidos de:</p>
 <h5>Fuentes</h5>
 <ol class="fuentes">
-<li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank" rel="noopener noreferrer">Capas SIG</a>; simbología vial: <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank" rel="noopener noreferrer">Manual de signos cartográficos, pp. 125–127</a>).</li>
+<li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank" rel="noopener noreferrer">Capas SIG</a>; <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank" rel="noopener noreferrer">Manual de signos cartográficos</a>).</li>
 <li>Secretaría de Energía de la Nación (<a href="http://datos.energia.gob.ar/dataset" target="_blank" rel="noopener noreferrer">Catálogo de datos</a>).</li>
 </ol>
 <h5>Aclaraciones</h5>
 <ol class="aclaraciones">
+<li>El ferrocarril se incorpora como referencia de conectividad: visible al inicio en Asentamientos y opcional en Producción y Síntesis. Los diques y muros son capas opcionales en Ambiente, Infraestructura eléctrica, Producción, Asentamientos y Síntesis.</li>
 <li>Sistema de Referencia de Coordenadas: WGS 84.</li>
 </ol>
 </div>
@@ -2014,12 +2132,16 @@ gauge_claro(g)
 <p>Elaborado por Marcelo Haberkorn en el año 2026 sobre la base de ArgenMap y datos obtenidos de:</p>
 <h5>Fuentes</h5>
 <ol class="fuentes">
+<li>Tren Patagónico: <a href="https://trenpatagonicosa.com.ar/las-estaciones/" target="_blank" rel="noopener noreferrer">Estaciones y boleterías</a>. Contraste de Viedma, San Antonio Oeste, Ingeniero Jacobacci y San Carlos de Bariloche.</li>
+<li>Vialidad Rionegrina: <a href="https://vialidad.rionegro.gov.ar/servicio/213/balsas?n=ODAw" target="_blank" rel="noopener noreferrer">Balsas</a>. Descripción de Sauce Blanco y Villa Llanquín.</li>
 <li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank" rel="noopener noreferrer">Capas SIG</a>; simbología vial: <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank" rel="noopener noreferrer">Manual de signos cartográficos, pp. 125–127</a>).</li>
 <li>Base de Asentamientos Humanos de la República Argentina (BAHRA): <a href="http://www.bahra.gob.ar/#descargas" target="_blank" rel="noopener noreferrer">descargas</a> y <a href="http://www.bahra.gob.ar/descargas/glosario.pdf" target="_blank" rel="noopener noreferrer">Glosario v2.0</a>.</li>
 <li>Legislatura de Río Negro: <a href="https://web.legisrn.gov.ar/legislativa/legislacion/documento?id=11058" target="_blank" rel="noopener noreferrer">Ley 5.804</a>; Gobierno de Río Negro: <a href="https://rionegro.gov.ar/download/boletin/6450.pdf" target="_blank" rel="noopener noreferrer">Decreto 1068/2025, BO 6450, pp. 3–5</a>.</li>
 </ol>
 <h5>Aclaraciones</h5>
 <ol class="aclaraciones">
+<li>Se contrastaron cuatro estaciones del IGN con los puntos publicados por Tren Patagónico: Viedma, San Antonio Oeste, Ingeniero Jacobacci y San Carlos de Bariloche. Las separaciones son de aproximadamente 10 a 23 m; se conservan las posiciones IGN y se añaden la dirección y el enlace del operador a sus consultas. Las oficinas de venta del centro de Bariloche y de CABA no se incorporan como estaciones.</li>
+<li>El ferrocarril se incorpora como referencia de conectividad: visible al inicio en Asentamientos y opcional en Producción y Síntesis. Los diques y muros son capas opcionales en Ambiente, Infraestructura eléctrica, Producción, Asentamientos y Síntesis.</li>
 <li>El mapa se fundamenta en la Ley provincial 5.804 (conocida como Ley 80/20), que exige, para las contrataciones alcanzadas, un mínimo de 80 % de personal con domicilio legal y real en Río Negro y dos años de residencia continuada, con las excepciones previstas, y un mínimo de 20 % de mujeres y disidencias. Los considerandos del Decreto 1068/2025 expresan prioridad para quienes residen dentro de 20 km del lugar de la obra o actividad. Son criterios normativos; este mapa no acredita contratación ni cumplimiento de cupos del VMOS.</li>
 <li><strong>Localidad:</strong> superficie terrestre caracterizada por la continuidad de áreas edificadas y no edificadas conectadas entre sí por una red de calles donde se concentra población. Una <strong>localidad simple</strong> se extiende sobre una sola jurisdicción y no atraviesa límites departamentales ni de gobierno local.</li>
 <li><strong>Paraje:</strong> lugar situado en un área rural que se identifica con un topónimo, usualmente de límites no definidos, donde puede habitar población en forma permanente o temporaria.</li>
@@ -2088,4 +2210,18 @@ valueBox(length(dp_seleccion),caption='Departamentos atravesados',icon='fa-map',
 
 ### Notas {data-width=1000}
 
-<div class="notas"><h4>Notas</h4><p>Elaborado por Marcelo Haberkorn en el año 2026 sobre la base de ArgenMap y datos obtenidos de:</p><h5>Fuentes</h5><ol class="fuentes"><li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank">Capas SIG</a>; <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank">Manual de signos cartográficos</a>).</li><li>Instituto Nacional de Estadística y Censos (<a href="https://portalgeoestadistico.indec.gob.ar/" target="_blank">Portal geoestadístico</a>).</li><li>Capas temáticas y referencias documentadas en las pestañas anteriores: BAHRA, Ministerio de Salud de Río Negro, datos productivos aportados y proyecto bicontinental del IGN.</li></ol><h5>Aclaraciones</h5><ol class="aclaraciones"><li>El entorno de 20 km se utiliza exclusivamente como referencia de cercanía para asentamientos. No constituye un área de impacto ambiental, sanitario o socioeconómico demostrada. La franja dibujada es una aproximación cartográfica; la selección de puntos utiliza la distancia elipsoidal sin redondear.</li><li>La intersección de departamentos, gobiernos locales y zonas sanitarias usa geometrías originales. Las capas visibles se generalizan sólo para reducir la carga del visor. Los atributos y las métricas no se calculan sobre esas copias simplificadas.</li><li>Las participaciones de población y ganado se calculan sobre departamentos completos, sin prorratear por superficie ni suponer una distribución uniforme dentro del departamento. Los años y universos son los de cada fuente.</li><li>Las oportunidades y presiones descritas son hipótesis de seguimiento territorial. La documentación disponible no incluye una evaluación de impacto ambiental ni mediciones que permitan confirmar efectos positivos o negativos atribuibles al oleoducto.</li><li>Sistema de Referencia de Coordenadas: WGS 84.</li></ol></div>
+<div class="notas"><h4>Notas</h4><p>Elaborado por Marcelo Haberkorn en el año 2026 sobre la base de ArgenMap y datos obtenidos de:</p><h5>Fuentes</h5><ol class="fuentes">
+<li>Tren Patagónico: <a href="https://trenpatagonicosa.com.ar/las-estaciones/" target="_blank" rel="noopener noreferrer">Estaciones y boleterías</a>. Contraste de Viedma, San Antonio Oeste, Ingeniero Jacobacci y San Carlos de Bariloche.</li>
+<li>Vialidad Rionegrina: <a href="https://vialidad.rionegro.gov.ar/servicio/213/balsas?n=ODAw" target="_blank" rel="noopener noreferrer">Balsas</a>. Descripción de Sauce Blanco y Villa Llanquín.</li>
+<li>Instituto Geográfico Nacional (<a href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG" target="_blank">Capas SIG</a>; <a href="https://www.ign.gob.ar/archivos/cartografia/manual_de_signos_cartograficos_2010.pdf" target="_blank">Manual de signos cartográficos</a>).</li>
+<li>Instituto Nacional de Estadística y Censos (<a href="https://portalgeoestadistico.indec.gob.ar/" target="_blank">Portal geoestadístico</a>).</li>
+<li>Capas temáticas y referencias documentadas en las pestañas anteriores: BAHRA, Ministerio de Salud de Río Negro, datos productivos aportados y proyecto bicontinental del IGN.</li>
+</ol><h5>Aclaraciones</h5><ol class="aclaraciones">
+<li>Se contrastaron cuatro estaciones del IGN con los puntos publicados por Tren Patagónico: Viedma, San Antonio Oeste, Ingeniero Jacobacci y San Carlos de Bariloche. Las separaciones son de aproximadamente 10 a 23 m; se conservan las posiciones IGN y se añaden la dirección y el enlace del operador a sus consultas. Las oficinas de venta del centro de Bariloche y de CABA no se incorporan como estaciones.</li>
+<li>El ferrocarril se incorpora como referencia de conectividad: visible al inicio en Asentamientos y opcional en Producción y Síntesis. Los diques y muros son capas opcionales en Ambiente, Infraestructura eléctrica, Producción, Asentamientos y Síntesis.</li>
+<li>El entorno de 20 km se utiliza exclusivamente como referencia de cercanía para asentamientos. No constituye un área de impacto ambiental, sanitario o socioeconómico demostrada. La franja dibujada es una aproximación cartográfica; la selección de puntos utiliza la distancia elipsoidal sin redondear.</li>
+<li>La intersección de departamentos, gobiernos locales y zonas sanitarias usa geometrías originales. Las capas visibles se generalizan sólo para reducir la carga del visor. Los atributos y las métricas no se calculan sobre esas copias simplificadas.</li>
+<li>Las participaciones de población y ganado se calculan sobre departamentos completos, sin prorratear por superficie ni suponer una distribución uniforme dentro del departamento. Los años y universos son los de cada fuente.</li>
+<li>Las oportunidades y presiones descritas son hipótesis de seguimiento territorial. La documentación disponible no incluye una evaluación de impacto ambiental ni mediciones que permitan confirmar efectos positivos o negativos atribuibles al oleoducto.</li>
+<li>Sistema de Referencia de Coordenadas: WGS 84.</li>
+</ol></div>

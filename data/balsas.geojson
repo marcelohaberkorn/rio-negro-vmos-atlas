@@ -1,0 +1,49 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Balsa Sauce Blanco",
+        "rio": "Río Negro",
+        "localidad": "Guardia Mitre / Sauce Blanco",
+        "coordenada_original": "-40.455926503807504, -63.78580257156731",
+        "descripcion": "Cruce mediante maroma, con empuje de la corriente y asistencia de tracción eléctrica.",
+        "fuente": "https://vialidad.rionegro.gov.ar/servicio/213/balsas?n=ODAw",
+        "fuente_ubicacion": "Coordenadas suministradas por Marcelo Haberkorn el 2 de noviembre de 2026",
+        "tipo": "Impulsada por la corriente de agua",
+        "signo_IGN": 72,
+        "consulta": "2026-11-02"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.78580257156731,
+          -40.455926503807504
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Balsa Villa Llanquín",
+        "rio": "Río Limay",
+        "localidad": "Villa Llanquín",
+        "coordenada_original": "40°53′40,8″ S; 71°02′20,6″ O",
+        "descripcion": "Cruce mediante maroma que utiliza el empuje de la corriente del río.",
+        "fuente": "https://vialidad.rionegro.gov.ar/servicio/213/balsas?n=ODAw",
+        "fuente_ubicacion": "Coordenadas suministradas por Marcelo Haberkorn el 2 de noviembre de 2026",
+        "tipo": "Impulsada por la corriente de agua",
+        "signo_IGN": 72,
+        "consulta": "2026-11-02"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.03905555555555,
+          -40.894666666666666
+        ]
+      }
+    }
+  ]
+}

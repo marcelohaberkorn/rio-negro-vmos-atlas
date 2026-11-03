@@ -1,0 +1,209 @@
+{
+  "fecha": "2026-11-02",
+  "hidrografia": {
+    "corrientes": {
+      "registros": 2420,
+      "tolerancia_simplificacion_m": 5,
+      "maximo_desplazamiento_m": 5.967,
+      "geometrias_invalidas": 0,
+      "vertices": 193850,
+      "sin_suavizado_por_control": 0,
+      "metodo": "Redondeo local de quiebres, extremos conservados"
+    },
+    "espejos": {
+      "registros": 1470,
+      "tolerancia_simplificacion_m": 5,
+      "maximo_desplazamiento_m": 7.678,
+      "geometrias_invalidas": 0,
+      "vertices": 45102,
+      "sin_suavizado_por_control": 0,
+      "metodo": "Simplificación con preservación de topología; sin suavizado de orillas"
+    },
+    "embalses": {
+      "registros": 19,
+      "tolerancia_simplificacion_m": 5,
+      "maximo_desplazamiento_m": 5.699,
+      "geometrias_invalidas": 0,
+      "vertices": 10211,
+      "sin_suavizado_por_control": 0,
+      "metodo": "Simplificación con preservación de topología; sin suavizado de orillas"
+    }
+  },
+  "capas_IGN": {
+    "ferrocarriles": {
+      "registros": 15,
+      "en_borde": [],
+      "criterio": "Intersección con provincia; franja de 500 m para elementos de borde, líneas ferroviarias recortadas a máscara con margen 30 m."
+    },
+    "estaciones_ferrocarril": {
+      "registros": 63,
+      "en_borde": [],
+      "criterio": "Intersección con provincia; franja de 500 m para elementos de borde, líneas ferroviarias recortadas a máscara con margen 30 m."
+    },
+    "diques": {
+      "registros": 10,
+      "en_borde": [
+        {
+          "nombre": "Salto Andersen",
+          "distancia_a_provincia_m": 17.2
+        },
+        {
+          "nombre": "Dique Punto Unido",
+          "distancia_a_provincia_m": 14.1
+        },
+        {
+          "nombre": "Dique El Chocón",
+          "distancia_a_provincia_m": 493.8
+        }
+      ],
+      "criterio": "Intersección con provincia; franja de 500 m para elementos de borde, líneas ferroviarias recortadas a máscara con margen 30 m."
+    },
+    "muros_embalse": {
+      "registros": 17,
+      "en_borde": [
+        {
+          "nombre": "Dique Piedra del Águila",
+          "distancia_a_provincia_m": 0.0
+        },
+        {
+          "nombre": "Dique Arroyito",
+          "distancia_a_provincia_m": 0.0
+        }
+      ],
+      "criterio": "Intersección con provincia; franja de 500 m para elementos de borde, líneas ferroviarias recortadas a máscara con margen 30 m."
+    }
+  },
+  "rotulos": {
+    "mascaras": 42,
+    "uso": "Exclusivo de colocación de rótulos; no modifica límites ni métricas.",
+    "margen_interior_m": 400,
+    "tolerancia_mascaras_m": {
+      "provincias": 250,
+      "departamentos": 120
+    }
+  },
+  "verificacion": {
+    "pestanas": 10,
+    "errores_javascript": [],
+    "recursos_locales_faltantes": [],
+    "etiquetas_comprobadas": 157,
+    "muestreo_por_etiqueta": "9 puntos de la caja de texto real, contra polígonos originales",
+    "errores_etiquetas": [],
+    "estaciones_por_zoom": [
+      {
+        "zoom": 7,
+        "estaciones": 0,
+        "rotadas": 63
+      },
+      {
+        "zoom": 8,
+        "estaciones": 63,
+        "rotadas": 63
+      },
+      {
+        "zoom": 10,
+        "estaciones": 63,
+        "rotadas": 63
+      }
+    ],
+    "tablas_analiticas": "Cinco CSV comparados byte a byte: sin cambios",
+    "compilacion": "Cálculo R y conversión Pandoc en procesos separados. No probado en Windows del autor.",
+    "actualizacion_logos_balsas": {
+      "pestanas": 10,
+      "logos_cargados": 30,
+      "errores_javascript": [],
+      "recursos_locales_faltantes": [],
+      "balsas_por_mapa": 2,
+      "mismo_svg_mapa_referencias": true,
+      "estaciones_con_informacion_operador": 4,
+      "presentacion_revisada_px": [
+        1888,
+        1280
+      ],
+      "imagen_institucional_completa": true
+    }
+  },
+  "pendientes": [],
+  "archivos": {
+    "html_bytes": 30081168,
+    "rmd_bytes": 162278
+  },
+  "logos": {
+    "instituciones": [
+      "UNS",
+      "DGyT",
+      "CDC"
+    ],
+    "presentacion": "Plantilla SVG aportada, autoría Marcelo Haberkorn y año 2026, textos en curvas para visualización"
+  },
+  "balsas": {
+    "cantidad": 2,
+    "fuente_ubicacion": "Coordenadas suministradas por el autor",
+    "signo_IGN": 72,
+    "svg_compartido_mapa_leyenda": "assets/signo_balsa_IGN72.svg"
+  },
+  "contraste_estaciones": {
+    "fecha": "2026-11-02",
+    "fuente": "https://trenpatagonicosa.com.ar/las-estaciones/",
+    "criterio": "Coincidencia por nombre y contraste espacial; se conservan las ubicaciones IGN. No se incorporan oficinas comerciales como estaciones.",
+    "estaciones": [
+      {
+        "estacion": "Viedma",
+        "gid_IGN": 2752,
+        "coordenadas_IGN": [
+          -62.98091309,
+          -40.83742804
+        ],
+        "coordenadas_operador": [
+          -62.980797384672556,
+          -40.83740241988068
+        ],
+        "direccion": "Avenida Cardenal Cagliero s/n, Viedma",
+        "distancia_geodesica_m": 10.17
+      },
+      {
+        "estacion": "San Antonio Oeste",
+        "gid_IGN": 2746,
+        "coordenadas_IGN": [
+          -64.94385123,
+          -40.73327029
+        ],
+        "coordenadas_operador": [
+          -64.94403368545278,
+          -40.733206666998576
+        ],
+        "direccion": "Carlos Pellegrini 267, San Antonio Oeste",
+        "distancia_geodesica_m": 16.95
+      },
+      {
+        "estacion": "Ingeniero Jacobacci",
+        "gid_IGN": 2755,
+        "coordenadas_IGN": [
+          -69.54669831,
+          -41.32922518
+        ],
+        "coordenadas_operador": [
+          -69.54664900759138,
+          -41.329363227897915
+        ],
+        "direccion": "Av. San Martín 255, Ingeniero Jacobacci",
+        "distancia_geodesica_m": 15.88
+      },
+      {
+        "estacion": "San Carlos de Bariloche",
+        "gid_IGN": 5407,
+        "coordenadas_IGN": [
+          -71.27412402,
+          -41.13043033
+        ],
+        "coordenadas_operador": [
+          -71.27439387568022,
+          -41.13038194997806
+        ],
+        "direccion": "Av. 12 de Octubre 2400, San Carlos de Bariloche",
+        "distancia_geodesica_m": 23.29
+      }
+    ],
+    "metodo_distancia": "Distancia elipsoidal WGS 84 calculada con sf/lwgeom; se muestran metros redondeados."
+  }
+}

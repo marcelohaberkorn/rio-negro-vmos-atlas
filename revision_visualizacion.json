@@ -14,14 +14,18 @@
   {
     "capa": "embalses",
     "original_bytes": 695142,
-    "visual_bytes": 88638,
-    "tolerancia_m": 90
+    "visual_bytes": 341768,
+    "tolerancia_m": 5,
+    "revision": "2026-11-02",
+    "detalle": "Ver revision_cartografica_20261102.json"
   },
   {
     "capa": "espejos",
     "original_bytes": 2393325,
-    "visual_bytes": 718507,
-    "tolerancia_m": 90
+    "visual_bytes": 1843070,
+    "tolerancia_m": 5,
+    "revision": "2026-11-02",
+    "detalle": "Ver revision_cartografica_20261102.json"
   },
   {
     "capa": "centrales",
@@ -122,8 +126,10 @@
   {
     "capa": "corrientes",
     "original_bytes": 2927699,
-    "visual_bytes": 1217876,
-    "tolerancia_m": 90
+    "visual_bytes": 8346377,
+    "tolerancia_m": 5,
+    "revision": "2026-11-03",
+    "detalle": "Curvas locales y separación de auxiliares: ver revision_cartografica_20261103.json"
   },
   {
     "capa": "provincial",

@@ -1,0 +1,22 @@
+{
+  "version": "2026-11-03-cierre",
+  "fecha": "2026-11-03",
+  "html_sha256": "7cad0a083dbb6a8ca194d57b46c5243a37f35e0ba5d912c05d3d5be69ff8b505",
+  "html_original_sha256": "28b3c4cb0b88ee666af72ccae696984398c9cf71eadd30acb860b9e133190617",
+  "html_original_comprimido": "distribucion/Tablero_Rio_Negro.html.gz",
+  "rmd_sha256": "e9d10f5adfa6b0f8bd20e0ebd7fd7692128b80911f00bc7e9a2cb84baaf6fb76",
+  "mapas_externos": {
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-9d939117c2857b31c48d.js": "5a29bbddbdd475ea1e6f46d37facd64edd7ebe94ec4b72422965cfce23abeae5",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-d5a80f20d1dcf8126bcc.js": "1eb2abc210ef4db7fea4cdefd6c358f96933a8fe995d47251a37932027e562b9",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-8577f73027dd065c7006.js": "0024dc57adf933a8f32b7e7485133724d84aef7ed79280958d95268781fe7a41",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-f10b7deaebad55c38818.js": "d62f637d393265c5abc19d1eb0cb70e55fd6ccc7c84afedaaf2c2cf54e5dd7d1",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-5450659000031bce7084.js": "10b840ae2f26cf7a471aa09392461c231b2f3a600ea8bbca464eef75be5fb524",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-4365458f4213448f3db0.js": "e713d6e0b16276b63312b7749136340eb6b2527b598582b1c1ca35bccda63e61",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-438b3a8acc3550df3586.js": "4a1c18d8e247ba8bbd56e112f67957d8ab2781edb4949e9f41b470aa5274987c",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-87c7f6cd49a95e823a3e.js": "56215985b0bf048aec1157f5e237bd589e00d52b52446dfbeb9af8b1eddc7aa1",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-813192a49d74a0f629ca.js": "822565972eb7e819f454dc42b7462185759ce2472d2762ab0959079080c90669",
+    "Tablero_Rio_Negro_files/widget-data-20261103/htmlwidget-65543be141edbbdacf3c.js": "7e9d859e92ff2f4eff9e3b8df8bcd09f01d59e940e2e49976a378d6484dbba63"
+  },
+  "url": "https://marcelohaberkorn.github.io/rio-negro-vmos-atlas/",
+  "pestanas": 10
+}

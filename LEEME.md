@@ -1,12 +1,17 @@
 # Atlas territorial de Río Negro y VMOS
 
-**Versión final · 23 de octubre de 2026.**
+**Revisión cartográfica · 3 de noviembre de 2026.**
+
+Incluye los nuevos logos, la presentación con autoría y año 2026, las dos balsas
+ubicadas con las coordenadas recibidas y el contraste de cuatro estaciones con
+Tren Patagónico. Ver `REVISION_CIERRE_20261103.md` para las últimas correcciones;
+`REVISION_ANDREA_20261103.md` y `REVISION_ANDREA_20261102.md` conservan el registro de las entregas anteriores.
 
 ## Abrir y editar
 
 1. Extraer el ZIP completo en una carpeta local.
 2. Abrir `entrega_rio_negro/Tablero_Rio_Negro.html` con un navegador.
-3. Conservar junto al HTML su carpeta de recursos `Tablero_Rio_Negro_files`.
+3. Conservar junto al HTML las carpetas `Tablero_Rio_Negro_files` y `assets`.
    La carpeta y su nombre forman parte de la entrega; no mover sólo el HTML.
 4. Para editar, abrir `Tablero_Rio_Negro.Rmd` desde esa misma carpeta en RStudio.
 5. Ejecutar Knit o `source("Compilar_tablero.R")` desde la carpeta del proyecto.
@@ -19,7 +24,7 @@ No se modifican opciones de Windows ni el archivo de paginación del equipo.
 
 El error `VirtualAlloc MEM_COMMIT` comunicado ocurría después del cálculo de R,
 durante la conversión de Pandoc. Esta versión reduce también los objetos gráficos:
-las copias de visualización se generalizan, media tensión se dibuja como un único
+las copias de visualización se generalizan según cada capa (hidrografía: 5 m), media tensión se dibuja como un único
 objeto multilineal y los análisis conservan las geometrías originales. El script
 `Compilar_tablero.R` separa cálculo y conversión en dos procesos para liberar la
 memoria de R antes de iniciar Pandoc. No se verificó en el equipo Windows del autor.
@@ -48,9 +53,9 @@ install.packages(c('flexdashboard','leaflet','sf','htmltools','htmlwidgets',
 7. Gobiernos locales: siete municipios intersectados y demás jurisdicciones.
 8. Zonas sanitarias: seis zonas, tres intersectadas e indicadores.
 9. Asentamientos y conectividad: 356 registros BAHRA, 58 hasta 20 km, tipos,
-   dos fondos ArgenMap, rutas y contexto hidrográfico opcional.
+   dos fondos ArgenMap, rutas, ferrocarriles y estaciones; hidrografía y diques opcionales.
 10. Síntesis: mapa integrado, resultados cuantificados, análisis territorial,
-    oportunidades de seguimiento, presiones posibles y conclusiones con límites
+    ferrocarriles y obras hidráulicas opcionales, oportunidades de seguimiento, presiones posibles y conclusiones con límites
     explícitos de lo que permiten afirmar las capas disponibles.
 
 ## Población y NBI: universos y controles
@@ -167,3 +172,7 @@ y los popups BAHRA conservan la distancia sin repetir la categoría de cercanía
 
 Se retiraron las aclaraciones 3 y 4 de la presentación. Los indicadores ganaderos
 quedaron como «cabezas ovinas - dato 2022» y «cabezas bovinas - datos 2021».
+
+## Publicación en GitHub Pages
+
+Después de compilar, ejecutar `python Publicar_tablero.py` desde la raíz del repositorio. El script conserva el HTML completo en `distribucion/Tablero_Rio_Negro.html.gz` y separa los diez bloques JSON cartográficos en scripts externos que se cargan antes de inicializar htmlwidgets. No se modifican coordenadas, atributos ni funcionalidades. La raíz mantiene una copia local y `docs/index.html` es la entrada pública. Subir junto a ella los recursos de `docs/assets` y `docs/Tablero_Rio_Negro_files`. La configuración existente publica `main:/docs`.

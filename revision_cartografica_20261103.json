@@ -1,0 +1,285 @@
+{
+  "fecha": "2026-11-03",
+  "fuente_original_sha256": "71c6b94086c15e2182516212e9f1d7e28aad65cd62034564f727a78d021418a2",
+  "registros_originales": 2420,
+  "registros_auxiliares": 28,
+  "registros_dibujo_principal": 2392,
+  "detalle_auxiliares": [
+    {
+      "gid": 631388,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado cerrado en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 5993.42
+    },
+    {
+      "gid": 631390,
+      "nombre": "Río Negro Brazo Norte",
+      "sector": "Choele Choel",
+      "motivo": "Trazado cerrado en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 2125.08
+    },
+    {
+      "gid": 631394,
+      "nombre": "Río Negro (Brazo Norte)",
+      "sector": "Choele Choel",
+      "motivo": "Trazado cerrado en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 1048.59
+    },
+    {
+      "gid": 631395,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado cerrado en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 3445.64
+    },
+    {
+      "gid": 640668,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 6152.98
+    },
+    {
+      "gid": 640670,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 6513.8
+    },
+    {
+      "gid": 640672,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 3588.04
+    },
+    {
+      "gid": 640673,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 4219.77
+    },
+    {
+      "gid": 640677,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 4354.92
+    },
+    {
+      "gid": 640681,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 2228.1
+    },
+    {
+      "gid": 640682,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 1517.16
+    },
+    {
+      "gid": 640685,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 7895.92
+    },
+    {
+      "gid": 640686,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 3189.08
+    },
+    {
+      "gid": 640699,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 2713.8
+    },
+    {
+      "gid": 640700,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 3270.85
+    },
+    {
+      "gid": 640701,
+      "nombre": "",
+      "sector": "Choele Choel",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 4803.02
+    },
+    {
+      "gid": 882537,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 625.36
+    },
+    {
+      "gid": 882799,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 2223.79
+    },
+    {
+      "gid": 899565,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 618.8
+    },
+    {
+      "gid": 899581,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 388.57
+    },
+    {
+      "gid": 899585,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 178.12
+    },
+    {
+      "gid": 819730,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 796.4
+    },
+    {
+      "gid": 820763,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 1359.03
+    },
+    {
+      "gid": 886696,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 404.87
+    },
+    {
+      "gid": 894024,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 416.74
+    },
+    {
+      "gid": 899524,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 580.28
+    },
+    {
+      "gid": 899575,
+      "nombre": "",
+      "sector": "General Roca",
+      "motivo": "Trazado sin denominación en sector señalado: separado del dibujo principal para revisión",
+      "longitud_original_m": 577.85
+    },
+    {
+      "gid": 631402,
+      "nombre": "Río Negro Brazo Norte",
+      "sector": "Choele Choel",
+      "motivo": "Fragmento menor de 200 m sin conexión a otros trazados principales a 5 m: separado para revisión",
+      "longitud_original_m": 75.56
+    }
+  ],
+  "criterio_auxiliares": "Sólo en las ventanas de revisión de General Roca y Choele Choel: trazados cerrados, sin denominación o menores de 200 m sin conexión al resto del dibujo principal a 5 m. Permanecen en capa opcional; no se afirma que sean cursos inexistentes ni se altera la base original.",
+  "suavizado": {
+    "metodo": "Bézier cuadrática local tras simplificación de 5 m; extremos y vértices de conexión conservados; sin ajuste al mapa base",
+    "recorte_maximo_esquinas_m": 140,
+    "fraccion_maxima_de_segmento": 0.28,
+    "desplazamiento_maximo_verificado_m": 65.884,
+    "umbral_control_m": 80,
+    "geometrias_invalidas": 0,
+    "extremos_modificados": 0,
+    "vertices": 193962,
+    "conexiones_originales_desplazadas_mas_de_5_m": 0,
+    "nuevas_autointersecciones": 0
+  },
+  "verificacion_entrega": {
+    "pestanas": 10,
+    "errores_javascript": [],
+    "recursos_locales_faltantes": [],
+    "estaciones": 63,
+    "estaciones_con_popup": 4,
+    "etiquetas_comprobadas": 156,
+    "etiquetas_fuera_de_poligono_o_visor": [],
+    "rotulos_provinciales": [
+      {
+        "nombre": "Mendoza",
+        "categoria": "provincia",
+        "letter": "6px",
+        "word": "9.6px",
+        "width": 128
+      },
+      {
+        "nombre": "La Pampa",
+        "categoria": "provincia",
+        "letter": "9px",
+        "word": "14.4px",
+        "width": 172.40625
+      },
+      {
+        "nombre": "Chubut",
+        "categoria": "provincia",
+        "letter": "10.5px",
+        "word": "16.8px",
+        "width": 132
+      },
+      {
+        "nombre": "Río Negro",
+        "categoria": "provincia",
+        "letter": "6.5px",
+        "word": "10.4px",
+        "width": 164.90625
+      },
+      {
+        "nombre": "Neuquén",
+        "categoria": "provincia",
+        "letter": "11px",
+        "word": "17.6px",
+        "width": 160
+      },
+      {
+        "nombre": "Buenos Aires",
+        "categoria": "provincia",
+        "letter": "10px",
+        "word": "16px",
+        "width": 262
+      }
+    ],
+    "rotulos_departamentales": "Estilos, espaciado y dimensiones idénticos a la entrega anterior",
+    "logos_y_credito_institucional": "Archivos idénticos a los aprobados",
+    "signo_balsa_referencia": "Archivo original sin cambios; giro de 90 grados sólo para Sauce Blanco en mapa",
+    "tablas_analiticas": "Cinco CSV idénticos a la entrega anterior",
+    "compilacion": "R y Pandoc en procesos separados; HTML verificado en navegador. No probado en Windows del autor."
+  },
+  "software_preprocesamiento": {
+    "numpy": "2.5.4",
+    "shapely": "2.2.0",
+    "pyproj": "3.8.0"
+  },
+  "archivos": {
+    "rmd_bytes": 163433,
+    "html_bytes": 30057918
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "fecha": "2026-11-02",
+  "fuente": "https://trenpatagonicosa.com.ar/las-estaciones/",
+  "criterio": "Coincidencia por nombre y contraste espacial; se conservan las ubicaciones IGN. No se incorporan oficinas comerciales como estaciones.",
+  "estaciones": [
+    {
+      "estacion": "Viedma",
+      "gid_IGN": 2752,
+      "coordenadas_IGN": [
+        -62.98091309,
+        -40.83742804
+      ],
+      "coordenadas_operador": [
+        -62.980797384672556,
+        -40.83740241988068
+      ],
+      "direccion": "Avenida Cardenal Cagliero s/n, Viedma",
+      "distancia_geodesica_m": 10.17
+    },
+    {
+      "estacion": "San Antonio Oeste",
+      "gid_IGN": 2746,
+      "coordenadas_IGN": [
+        -64.94385123,
+        -40.73327029
+      ],
+      "coordenadas_operador": [
+        -64.94403368545278,
+        -40.733206666998576
+      ],
+      "direccion": "Carlos Pellegrini 267, San Antonio Oeste",
+      "distancia_geodesica_m": 16.95
+    },
+    {
+      "estacion": "Ingeniero Jacobacci",
+      "gid_IGN": 2755,
+      "coordenadas_IGN": [
+        -69.54669831,
+        -41.32922518
+      ],
+      "coordenadas_operador": [
+        -69.54664900759138,
+        -41.329363227897915
+      ],
+      "direccion": "Av. San Martín 255, Ingeniero Jacobacci",
+      "distancia_geodesica_m": 15.88
+    },
+    {
+      "estacion": "San Carlos de Bariloche",
+      "gid_IGN": 5407,
+      "coordenadas_IGN": [
+        -71.27412402,
+        -41.13043033
+      ],
+      "coordenadas_operador": [
+        -71.27439387568022,
+        -41.13038194997806
+      ],
+      "direccion": "Av. 12 de Octubre 2400, San Carlos de Bariloche",
+      "distancia_geodesica_m": 23.29
+    }
+  ],
+  "metodo_distancia": "Distancia elipsoidal WGS 84 calculada con sf/lwgeom; se muestran metros redondeados."
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="24" viewBox="0 0 40 24">
+  <title>Balsa impulsada por la corriente de agua · IGN, signo 72</title>
+  <g stroke="#202020" stroke-width="0.8" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M3 8 H9.4 M13.4 8 H19.8 M23.8 8 H30.2" fill="none"/>
+    <path d="M22 8 L25.394113 11.394113 L19.737258 17.050967 L16.343146 13.656854 Z" fill="white"/>
+    <path d="M16.343146 13.656854 L14.080404 11.394113" fill="none"/>
+  </g>
+</svg>
